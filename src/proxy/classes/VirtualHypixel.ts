@@ -1,5 +1,7 @@
 import { configInterface } from "../interfaces/configInterface"
+import { ModuleBase } from "../modules/base/ModuleBase"
 import { InstantConnectProxy } from "prismarine-proxy"
+import { WindowManager } from "./window/WindowManager"
 import { Client } from "minecraft-protocol"
 import { logger } from "../../utils/logger"
 
@@ -15,6 +17,10 @@ export class VirtualHypixel {
     proxy: InstantConnectProxy
     client: Client | undefined
 
+    // modules and stuff
+    windowManager: WindowManager = new WindowManager()
+    modules: ModuleBase[] = []
+
     constructor(public config: configInterface) {
         logger.info(`Starting Virtual Hypixel ${this.version}...`)
 
@@ -23,6 +29,7 @@ export class VirtualHypixel {
                 this.client = client
 
                 logger.info(`Logging in as ${client.profile.name}...`)
+                logger.info(`Loading modules...`)
 
                 return { username: config.account.email, password: config.account.password, auth: config.account.auth }
             },
@@ -45,7 +52,12 @@ export class VirtualHypixel {
 
         // @ts-ignore
         this.proxy.on('outgoing', (data, meta, toClient, toServer) => {
-            toServer.write(meta.name, data)
+            let intercept = false
+            intercept = this.windowManager.onOutPacket(meta, data, toServer)
+
+
+            if (!intercept)
+                toServer.write(meta.name, data)
         })
 
         logger.info(`Ready! Connect to "localhost" to start playing!`)
