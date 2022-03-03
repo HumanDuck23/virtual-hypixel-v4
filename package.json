@@ -1,0 +1,18 @@
+{
+  "name": "virtual-hypixel-v4",
+  "version": "1.0.0",
+  "description": "Version 4 of the Virtual Hypixel proxy",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "HumanDuck23",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^17.0.21",
+    "axios": "^0.26.0",
+    "colorts": "^0.1.63",
+    "prismarine-chat": "^1.6.0",
+    "prismarine-proxy": "^1.1.1"
+  }
+}
