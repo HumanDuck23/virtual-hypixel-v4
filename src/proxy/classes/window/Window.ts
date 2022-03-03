@@ -1,6 +1,6 @@
+import { windowClickEvent } from "../../interfaces/windowClickEvent"
 import EventEmitter from "events"
 import { Item } from "./Item"
-import {windowClickEvent} from "../../interfaces/windowClickEvent";
 
 /**
  * Class to represent minecraft container windows
