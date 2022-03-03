@@ -5,6 +5,14 @@ import color from "colorts"
  */
 export const logger = {
     /**
+     * Logs a debug message
+     * @param text - Message
+     */
+    debug(text: string) {
+        console.log(color(`[${new Date().toISOString()}] [info] ${color(text).white}`).magenta.bold.toString())
+    },
+
+    /**
      * Logs an info message
      * @param text - Message
      */
