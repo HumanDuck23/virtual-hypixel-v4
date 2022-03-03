@@ -37,6 +37,13 @@ export class Window extends EventEmitter {
     }
 
     /**
+     * Generates the JSON to be sent with the open_window packet
+     */
+    genOpenJSON() {
+        return { windowId: this.id, inventoryType: this.type, windowTitle: JSON.stringify({ translate: this.title }), slotCount: this.slotCount }
+    }
+
+    /**
      * Generate the JSON for you to send with the "window_items" packet
      */
     genItemJSON() {
