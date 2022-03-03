@@ -8,7 +8,6 @@ import { logger } from "../../utils/logger"
 /**
  * Main Virtual Hypixel Class
  */
-
 export class VirtualHypixel {
 
     version: string = "v4-beta-0.0.1"
