@@ -1,9 +1,8 @@
-import { WindowManager } from "../classes/window/WindowManager"
 import { VirtualHypixel } from "../classes/VirtualHypixel"
 import { Client, PacketMeta } from "minecraft-protocol"
 import { ModuleBase } from "./base/ModuleBase"
+import { Item } from "../classes/window/Item"
 import { logger } from "../../utils/logger"
-import {Item} from "../classes/window/Item";
 
 /**
  * Settings module
