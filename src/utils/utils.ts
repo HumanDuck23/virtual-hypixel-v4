@@ -5,10 +5,11 @@ export const utils = {
      * @param obj - Object to be repeated
      * @param count - Amount of times to repeat object
      */
-    repeatObj(obj: any, count: number) {
+    repeatObj<T>(obj: T, count: number): T[] {
         const r = []
         for (let i = 0; i < count; i++) {
             r.push(JSON.parse(JSON.stringify(obj))) // deep copy
         }
+        return r
     }
 }
