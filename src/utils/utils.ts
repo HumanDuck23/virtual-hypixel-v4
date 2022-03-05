@@ -8,7 +8,7 @@ export const utils = {
     repeatObj<T>(obj: T, count: number): T[] {
         const r = []
         for (let i = 0; i < count; i++) {
-            r.push(JSON.parse(JSON.stringify(obj))) // deep copy
+            r.push(Object.assign(Object.create(Object.getPrototypeOf(obj)), obj)) // deep copy
         }
         return r
     }
