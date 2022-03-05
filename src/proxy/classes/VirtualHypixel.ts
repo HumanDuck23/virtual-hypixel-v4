@@ -2,9 +2,10 @@ import { configInterface } from "../interfaces/configInterface"
 import { ModuleBase } from "../modules/base/ModuleBase"
 import { InstantConnectProxy } from "prismarine-proxy"
 import { WindowManager } from "./window/WindowManager"
+import { PacketFilter } from "../modules/PacketFilter"
 import {Client, PacketMeta} from "minecraft-protocol"
 import { logger } from "../../utils/logger"
-import {PacketFilter} from "../modules/PacketFilter";
+import * as fs from "fs"
 
 /**
  * Main Virtual Hypixel Class
@@ -20,9 +21,10 @@ export class VirtualHypixel {
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
     modules: ModuleBase[] = []
+    config: configInterface
 
-    constructor(public config: configInterface) {
-
+    constructor(public configPath: string) {
+        this.config = JSON.parse(fs.readFileSync(this.configPath).toString())
     }
 
     start() {
