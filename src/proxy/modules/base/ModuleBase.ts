@@ -27,10 +27,10 @@ export class ModuleBase {
      * @param meta - Packet meta
      * @param data - Packet data
      * @param toServer - toServer to be used to send stuff to the server
-     * @return boolean - Whether the packet should be filtered or not
+     * @return boolean - [Filter packet, data], this is so that you can modify the data instead of filtering it completely
      */
-    onInPacket(meta: PacketMeta, data: any, toServer: Client): boolean {
-        return false
+    onInPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
+        return [false, data]
     }
 
     /**
@@ -38,9 +38,9 @@ export class ModuleBase {
      * @param meta - Packet meta
      * @param data - Packet data
      * @param toServer - toServer to be used to send stuff to the server
-     * @return boolean - Whether the packet should be filtered or not
+     * @return [boolean, any] - [Filter packet, data], this is so that you can modify the data instead of filtering it completely
      */
-    onOutPacket(meta: PacketMeta, data: any, toServer: Client): boolean {
-        return false
+    onOutPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
+        return [false, data]
     }
 }
