@@ -6,6 +6,7 @@ import { PacketFilter } from "../modules/PacketFilter"
 import {Client, PacketMeta} from "minecraft-protocol"
 import { logger } from "../../utils/logger"
 import * as fs from "fs"
+import {Settings} from "../modules/Settings";
 
 /**
  * Main Virtual Hypixel Class
@@ -38,6 +39,7 @@ export class VirtualHypixel {
                 logger.info(`Loading modules...`)
 
                 this.modules.push(new PacketFilter(this.client, this))
+                this.modules.push(new Settings(this.client, this))
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
