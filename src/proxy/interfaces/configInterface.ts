@@ -16,5 +16,9 @@ export interface configInterface {
         playerModule: boolean,
         autoDodge: boolean,
         streamMod: boolean
+    },
+
+    inGameSettings: {
+        open: string
     }
 }
