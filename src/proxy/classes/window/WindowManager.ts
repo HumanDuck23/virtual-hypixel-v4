@@ -1,6 +1,6 @@
 import { Client, PacketMeta } from "minecraft-protocol"
 import { Window } from "./Window"
-import { Item } from "./Item"
+import { Item } from "./item/Item"
 
 /**
  * Class to create and manage container windows
