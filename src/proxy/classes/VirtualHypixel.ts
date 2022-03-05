@@ -14,7 +14,7 @@ export class VirtualHypixel {
     version: string = "v4-beta-0.0.1"
 
     // game stuff
-    proxy: InstantConnectProxy
+    proxy: InstantConnectProxy | undefined
     client: Client | undefined
 
     // modules and stuff
@@ -22,6 +22,10 @@ export class VirtualHypixel {
     modules: ModuleBase[] = []
 
     constructor(public config: configInterface) {
+
+    }
+
+    start() {
         logger.info(`Starting Virtual Hypixel ${this.version}...`)
 
         this.proxy =  new InstantConnectProxy({
@@ -33,7 +37,7 @@ export class VirtualHypixel {
 
                 this.modules.push(new PacketFilter(this.client, this))
 
-                return { username: config.account.email, password: config.account.password, auth: config.account.auth }
+                return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
             serverOptions: {
                 version: "1.8.9",
