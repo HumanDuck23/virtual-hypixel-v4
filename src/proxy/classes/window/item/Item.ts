@@ -22,10 +22,6 @@ export class Item {
                 "type": "compound",
                 "name": "",
                 "value": {
-                    "overrideMeta": {
-                        "type": "byte",
-                        "value": 1
-                    },
                     "display": {
                         "type": "compound",
                         "value": {
