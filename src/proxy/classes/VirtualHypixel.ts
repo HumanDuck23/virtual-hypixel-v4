@@ -18,6 +18,7 @@ export class VirtualHypixel {
     // game stuff
     proxy: InstantConnectProxy | undefined
     client: Client | undefined
+    currentMode: string = "LOBBY"
 
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
