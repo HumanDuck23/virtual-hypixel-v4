@@ -31,7 +31,7 @@ export const utils = {
     getProfile(uuid: string, mode: "uuid" | "name" = "uuid"): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
-                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`)
+                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}?unsigned=false`)
                 if (res.status === 200) {
                     uuid = res.data.id
                 } else {
