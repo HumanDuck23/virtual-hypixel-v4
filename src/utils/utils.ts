@@ -11,5 +11,13 @@ export const utils = {
             r.push(Object.assign(Object.create(Object.getPrototypeOf(obj)), obj)) // deep copy
         }
         return r
+    },
+
+    /**
+     * Checks whether the UUID is valid for a player
+     * @param uuid - The UUID to check
+     */
+    realUUID(uuid: string): boolean {
+        return /[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-4[a-zA-Z0-9]{3}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}/.exec(uuid) !== null
     }
 }
