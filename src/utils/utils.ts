@@ -29,8 +29,16 @@ export const utils = {
      * For skins etc
      * @param uuid - UUID of the player
      */
-    getProfile(uuid: string): Promise<any> {
+    getProfile(uuid: string, mode: "uuid" | "name" = "uuid"): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
+            if (mode === "name") {
+                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`)
+                if (res.status === 200) {
+                    uuid = res.data.id
+                } else {
+                    reject(res)
+                }
+            }
             const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
             if (res.status === 200) {
                 resolve(res.data)
