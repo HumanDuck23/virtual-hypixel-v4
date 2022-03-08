@@ -3,10 +3,12 @@ import { ModuleBase } from "../modules/base/ModuleBase"
 import { InstantConnectProxy } from "prismarine-proxy"
 import { WindowManager } from "./window/WindowManager"
 import { PacketFilter } from "../modules/PacketFilter"
-import {Client, PacketMeta} from "minecraft-protocol"
+import { Client, PacketMeta } from "minecraft-protocol"
+import { Settings } from "../modules/Settings"
 import { logger } from "../../utils/logger"
 import * as fs from "fs"
-import {Settings} from "../modules/Settings";
+
+const ChatMessage = require('prismarine-chat')('1.8')
 
 /**
  * Main Virtual Hypixel Class
@@ -18,7 +20,9 @@ export class VirtualHypixel {
     // game stuff
     proxy: InstantConnectProxy | undefined
     client: Client | undefined
+
     currentMode: string = "LOBBY"
+    lastRespawn: number = 0
 
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
@@ -59,6 +63,22 @@ export class VirtualHypixel {
         // @ts-ignore
         this.proxy.on('incoming', (data, meta, toClient, toServer) => {
             const handled = this.handlePacket(meta, data, toServer, false)
+
+            if (meta.name === "respawn" && new Date().getTime() - this.lastRespawn > 500) {
+                toServer.write("chat", {message: "/whereami"})
+                this.lastRespawn = new Date().getTime()
+            } else if (meta.name === "chat") {
+                const m = new ChatMessage(JSON.parse(data.message))
+                const serverRE = /You are currently connected to server (.*)/
+                if (serverRE.exec(m.toString())) {
+                    const rex = serverRE.exec(m.toString())
+                    if (rex && rex[1].includes("mini"))
+                        this.currentMode = "GAME"
+                    else
+                        this.currentMode = "LOBBY"
+                }
+            }
+
             if (!handled.intercept)
                 toClient.write(handled.meta.name, handled.data)
         })
