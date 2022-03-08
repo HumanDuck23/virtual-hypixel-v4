@@ -46,5 +46,27 @@ export const utils = {
                 reject(res)
             }
         })
+    },
+
+    /**
+     * Checks whether the two players are in the same gamemode
+     * @param uuid1
+     * @param uuid2
+     */
+    sameGameMode(uuid1: string, uuid2: string, apiKey: string) {
+        return new Promise<boolean>(async (resolve, reject) => {
+            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`)
+            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`)
+
+            if (res1.status === 200 && res2.status === 200) {
+                if (res1.data.session.online && res2.data.session.online) {
+                    resolve(res1.data.session.mode === res2.data.session.mode)
+                } else {
+                    reject("offline")
+                }
+            } else {
+                reject(-1)
+            }
+        })
     }
 }
