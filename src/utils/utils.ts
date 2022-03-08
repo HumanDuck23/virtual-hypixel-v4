@@ -52,7 +52,7 @@ export const utils = {
      * @param uuid1
      * @param uuid2
      */
-    sameGameMode(uuid1: string, uuid2: string, apiKey: string) {
+    sameGameMode(uuid1: string, uuid2: string, apiKey: string): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`)
             const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`)
@@ -66,6 +66,17 @@ export const utils = {
             } else {
                 reject(-1)
             }
+        })
+    },
+
+    /**
+     * Checks whether the given player exists
+     * @param name
+     */
+    playerExists(name: string): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`)
+            resolve(res.status === 200)
         })
     }
 }
