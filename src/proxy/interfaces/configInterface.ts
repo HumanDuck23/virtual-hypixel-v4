@@ -8,7 +8,8 @@ export interface configInterface {
 
     packet: {
         enableMods: boolean,
-        particles: boolean
+        particles: boolean,
+        deObf: boolean
     },
 
     modules: {
