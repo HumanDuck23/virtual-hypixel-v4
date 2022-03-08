@@ -21,7 +21,7 @@ export class VirtualHypixel {
     proxy: InstantConnectProxy | undefined
     client: Client | undefined
 
-    currentMode: string = "LOBBY"
+    inGame: boolean = false
     lastRespawn: number = 0
 
     // modules and stuff
@@ -62,8 +62,6 @@ export class VirtualHypixel {
 
         // @ts-ignore
         this.proxy.on('incoming', (data, meta, toClient, toServer) => {
-            const handled = this.handlePacket(meta, data, toServer, false)
-
             if (meta.name === "respawn" && new Date().getTime() - this.lastRespawn > 500) {
                 toServer.write("chat", {message: "/whereami"})
                 this.lastRespawn = new Date().getTime()
@@ -73,11 +71,13 @@ export class VirtualHypixel {
                 if (serverRE.exec(m.toString())) {
                     const rex = serverRE.exec(m.toString())
                     if (rex && rex[1].includes("mini"))
-                        this.currentMode = "GAME"
+                        this.inGame = true
                     else
-                        this.currentMode = "LOBBY"
+                        this.inGame = false
                 }
             }
+
+            const handled = this.handlePacket(meta, data, toServer, false)
 
             if (!handled.intercept)
                 toClient.write(handled.meta.name, handled.data)
