@@ -1,5 +1,4 @@
-import {rejects} from "assert";
-import axios from "axios";
+import axios from "axios"
 
 export const utils = {
     /**
