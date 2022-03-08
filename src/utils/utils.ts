@@ -1,3 +1,6 @@
+import {rejects} from "assert";
+import axios from "axios";
+
 export const utils = {
     /**
      * Creates an array with n-amounts of the same object (deep copy).
@@ -19,5 +22,21 @@ export const utils = {
      */
     realUUID(uuid: string): boolean {
         return /[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-4[a-zA-Z0-9]{3}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}/.exec(uuid) !== null
+    },
+
+    /**
+     * Get minecraft session profile
+     * For skins etc
+     * @param uuid - UUID of the player
+     */
+    getProfile(uuid: string): Promise<any> {
+        return new Promise<any>(async (resolve, reject) => {
+            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+            if (res.status === 200) {
+                resolve(res.data)
+            } else {
+                reject(res)
+            }
+        })
     }
 }
