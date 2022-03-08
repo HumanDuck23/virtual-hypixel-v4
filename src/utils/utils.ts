@@ -31,14 +31,14 @@ export const utils = {
     getProfile(uuid: string, mode: "uuid" | "name" = "uuid"): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
-                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}?unsigned=false`)
+                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`)
                 if (res.status === 200) {
                     uuid = res.data.id
                 } else {
                     reject(res)
                 }
             }
-            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}?unsigned=false`)
             if (res.status === 200) {
                 resolve(res.data)
             } else {
