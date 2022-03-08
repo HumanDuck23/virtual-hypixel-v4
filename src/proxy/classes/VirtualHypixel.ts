@@ -21,7 +21,7 @@ export class VirtualHypixel {
     proxy: InstantConnectProxy | undefined
     client: Client | undefined
 
-    inGame: boolean = false
+    inGame: boolean | null = false
     lastRespawn: number = 0
 
     // modules and stuff
@@ -65,6 +65,7 @@ export class VirtualHypixel {
             if (meta.name === "respawn" && new Date().getTime() - this.lastRespawn > 500) {
                 toServer.write("chat", {message: "/whereami"})
                 this.lastRespawn = new Date().getTime()
+                this.inGame = null
             } else if (meta.name === "chat") {
                 const m = new ChatMessage(JSON.parse(data.message))
                 const serverRE = /You are currently connected to server (.*)/
