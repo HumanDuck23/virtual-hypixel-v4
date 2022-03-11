@@ -7,6 +7,7 @@ import { Client, PacketMeta } from "minecraft-protocol"
 import { Settings } from "../modules/Settings"
 import { logger } from "../../utils/logger"
 import * as fs from "fs"
+import axios from "axios";
 
 const ChatMessage = require('prismarine-chat')('1.8')
 
@@ -15,7 +16,7 @@ const ChatMessage = require('prismarine-chat')('1.8')
  */
 export class VirtualHypixel {
 
-    version: string = "v4-beta-0.0.1"
+    version: string = "v4-beta-0.0.2"
 
     // game stuff
     proxy: InstantConnectProxy | undefined
@@ -23,6 +24,7 @@ export class VirtualHypixel {
 
     inGame: boolean | null = false
     lastRespawn: number = 0
+    currentMode: string | undefined
 
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
@@ -66,6 +68,24 @@ export class VirtualHypixel {
                 toServer.write("chat", {message: "/whereami"})
                 this.lastRespawn = new Date().getTime()
                 this.inGame = null
+
+                if (this.client) {
+                    axios.get(`https://api.hypixel.net/status?uuid=${this.client.profile?.id}&key=${this.config.account.hypixelApiKey}`)
+                        .then(res => {
+                            if (res.status === 200) {
+                                if (res.data.success) {
+                                    if (res.data.session.online) {
+                                        this.currentMode = res.data.session.mode
+                                    }
+                                } else {
+                                    logger.error(`Error with hypixel api: ${res.status}`)
+                                }
+                            } else {
+                                logger.error(`Error with hypixel api: ${res.status}`)
+                            }
+                        })
+                }
+
             } else if (meta.name === "chat") {
                 const m = new ChatMessage(JSON.parse(data.message))
                 const serverRE = /You are currently connected to server (.*)/
