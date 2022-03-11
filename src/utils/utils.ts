@@ -1,6 +1,6 @@
+import { mcColors } from "../proxy/data/mcColors"
+import { Client } from "minecraft-protocol"
 import axios from "axios"
-import {Client} from "minecraft-protocol";
-import {mcColors} from "../proxy/data/mcColors";
 
 export const utils = {
     /**
