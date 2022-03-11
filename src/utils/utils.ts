@@ -72,6 +72,20 @@ export const utils = {
     },
 
     /**
+     * Gets the stats of the UUID
+     */
+    getStats(uuid: string, apiKey: string): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`)
+            if (res.data.success) {
+                resolve(res.data.player)
+            } else {
+                reject(`Error with hypixel api: ${res.status}`)
+            }
+        })
+    },
+
+    /**
      * Checks whether the given player exists
      * @param name
      */
