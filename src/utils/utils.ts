@@ -1,4 +1,6 @@
 import axios from "axios"
+import {Client} from "minecraft-protocol";
+import {mcColors} from "../proxy/data/mcColors";
 
 export const utils = {
     /**
@@ -78,5 +80,50 @@ export const utils = {
             const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`)
             resolve(res.status === 200)
         })
-    }
+    },
+
+    /**
+     * Send a message to the client
+     * @param client - Client instance
+     * @param m - Message
+     * @param hoverText - Text to be shown on hover
+     */
+    sendMessage (client: Client, m: string, hoverText: string = "") {
+        let message = {}
+        if (hoverText) {
+            message = { message: JSON.stringify({ text: "", extra: [{ text: m, hoverEvent: { action: "show_text", value: { text: hoverText } } }] }) }
+        } else {
+            message = { message: JSON.stringify({ text: "", extra: [{ text: m }] }) }
+        }
+        client.write("chat", message)
+    },
+
+    /**
+     * Color the text
+     * @param text
+     * @param color
+     * @param bold
+     * @param underline
+     * @param italic
+     * @param strike
+     * @param obf
+     */
+    colorText(text: string, color: mcColors, bold = false, underline = false, italic = false, strike = false, obf = false) {
+        return color + (bold ? mcColors.BOLD : "") + (underline ? mcColors.UNDERLINE : "") + (italic ? mcColors.ITALIC : "") + (strike ? mcColors.STRIKETHROUGH : "") + (obf ? mcColors.OBF : "") + text + mcColors.RESET
+    },
+
+    /**
+     * Color the text, but with a custom reset
+     * @param text
+     * @param color
+     * @param reset
+     * @param bold
+     * @param underline
+     * @param italic
+     * @param strike
+     * @param obf
+     */
+    colorTextCustomReset(text: string, color: mcColors, reset: mcColors, bold = false, underline = false, italic = false, strike = false, obf = false) {
+        return color + (bold ? mcColors.BOLD : "") + (underline ? mcColors.UNDERLINE : "") + (italic ? mcColors.ITALIC : "") + (strike ? mcColors.STRIKETHROUGH : "") + (obf ? mcColors.OBF : "") + text + reset
+    },
 }
