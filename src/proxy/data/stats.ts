@@ -23,7 +23,7 @@ export const stats = {
 
         const w = utils.colorText(`Wins: ${wins}`, mcColors.GREEN)
         const l = utils.colorText(`Losses: ${losses}`, mcColors.RED)
-        const wlr = utils.colorText(`W/L: ${parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)}`, mcColors.BLUE)
+        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, mcColors.BLUE)
 
         const wsT =  utils.colorText(`WS: ${ws}`, mcColors.LIGHT_PURPLE)
         const bwsT =  utils.colorText(`BWS: ${bws}`, mcColors.DARK_PURPLE)
@@ -37,11 +37,11 @@ export const stats = {
 
         const w = utils.colorText(`Wins: ${wins}`, mcColors.GREEN)
         const l = utils.colorText(`Losses: ${losses}`, mcColors.RED)
-        const wlr = utils.colorText(`W/L: ${parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)}`, mcColors.BLUE)
+        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, mcColors.BLUE)
 
         const k = utils.colorText(`Kills: ${kills}`, mcColors.GREEN)
         const d = utils.colorText(`Deaths: ${deaths}`, mcColors.RED)
-        const kdr = utils.colorText(`K/D: ${parseInt(kills) / (parseInt(deaths) !== 0 ? parseInt(deaths) : 1)}`, mcColors.BLUE)
+        const kdr = utils.colorText(`K/D: ${(parseInt(kills) / (parseInt(deaths) !== 0 ? parseInt(deaths) : 1)).toFixed(2)}`, mcColors.BLUE)
 
         const wsT =  utils.colorText(`WS: ${ws}`, mcColors.LIGHT_PURPLE)
         const bwsT =  utils.colorText(`BWS: ${bws}`, mcColors.DARK_PURPLE)
