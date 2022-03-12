@@ -1,0 +1,36 @@
+# Virtual Hypixel Configuration File
+
+# Your Account
+account:
+  email: example@example.com
+  password: mypassword
+  auth: microsoft # microsoft or mojang account
+  hypixelApiKey: your api key
+
+# Options for filtering packets
+packet:
+  enableMods: true # enables mods like freelook
+  deObf: true # shows player names in duels
+
+# Modules to enable
+modules:
+  packetFilter: true
+  playerModule: true
+  fpsBoost: true
+
+# Options for the settings window
+inGameSettings:
+  open: "/virtual"
+
+# FPS boost options
+fpsBoost:
+  particles: true
+  fireworks: true
+
+# (OPTIONAL) Customization for the stats shown
+stats:
+  #wins: GOLD -> makes the amount of wins shown in GOLD, check mcColors.ts for a list of colors
+
+# Other options
+other:
+  showCorrectNameAndSkin: true # Shows the name and skin of your opponent in a duels mode
