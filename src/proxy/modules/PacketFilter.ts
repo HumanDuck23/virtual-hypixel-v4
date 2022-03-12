@@ -13,8 +13,6 @@ export class PacketFilter extends ModuleBase {
     }
 
     onInPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
-        if (meta.name === "world_particles") return [this.virtual.config.packet.particles, data]
-
         if (data.data && data.data.toString().toLowerCase().includes("hypixel") && this.virtual.config.packet.enableMods) return [true, data]
         if (data.channel && data.channel === "badlion:mods" && this.virtual.config.packet.enableMods) return [true, data]
 
