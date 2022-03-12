@@ -103,6 +103,7 @@ export class VirtualHypixel {
                         this.inGame = true
                     else
                         this.inGame = false
+                    return
                 }
             }
 
