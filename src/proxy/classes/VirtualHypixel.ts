@@ -19,7 +19,7 @@ const ChatMessage = require('prismarine-chat')('1.8')
  */
 export class VirtualHypixel {
 
-    version: string = "v4-beta-0.0.2"
+    version: string = "v4-beta-1.0.0"
 
     // game stuff
     proxy: InstantConnectProxy | undefined
