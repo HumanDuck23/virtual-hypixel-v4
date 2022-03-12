@@ -5,6 +5,7 @@ import { logger } from "../../utils/logger"
 import { mcColors } from "../data/mcColors"
 import { utils } from "../../utils/utils"
 import { stats } from "../data/stats"
+import * as fs from "fs";
 
 /**
  * Player Stats Module
@@ -94,13 +95,56 @@ export class PlayerStats extends ModuleBase {
             }
         }
 
+        if (meta.name === "named_entity_spawn" && this.virtual.inGame) {
+            if (data.playerUUID && utils.realUUID(data.playerUUID)) {
+                //logger.debug(`${data.playerUUID} spawned`)
+                utils.uuidToUsername(data.playerUUID)
+                    .then(name => {
+                        utils.sameGameMode(data.playerUUID, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
+                            .then(same => {
+                                //.debug(`${name} same: ${same}`)
+                                if (same) {
+                                    utils.getStats(data.playerUUID, this.virtual.config.account.hypixelApiKey)
+                                        .then(playerObj => {
+                                            //logger.debug(`got stats of ${name}`)
+                                            if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
+                                                this.showStats(playerObj)
+                                            }
+                                        })
+                                        .catch(e => {
+                                            logger.error(`Error getting stats of ${name} - ${e}`)
+                                        })
+                                }
+                            })
+                            .catch(e => {
+                                if (e === "offline") {
+                                    //logger.debug(`${name} offline`)
+                                    utils.getStats(data.playerUUID, this.virtual.config.account.hypixelApiKey)
+                                        .then(playerObj => {
+                                            //logger.debug(`got stats of ${name}`)
+                                            if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
+                                                this.showStats(playerObj, true)
+                                            }
+                                        })
+                                        //.catch(e => {
+                                        //    logger.error(`Error getting stats of ${name} - ${e}`)
+                                        //})
+                                }
+                            })
+                    })
+                    .catch(e => {
+                        logger.error(`Error converting UUID ${data.playerUUID} to username - ${e}`)
+                    })
+            }
+            fs.appendFileSync("./packetLog2.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
+        }
+
         return [false, data]
     }
 
     /**
      * Calculate the stats for the current mode and send them to the client
      * @param stat - Stats object
-     * @param profile - Profile fetched with the utils method
      * @param maybe - Whether this player is not definitely in the game
      */
     showStats(stat: any, maybe: boolean = false) {
@@ -114,9 +158,13 @@ export class PlayerStats extends ModuleBase {
             }
             args.push(obj ?? 0) // make sure you don't get an UNDEFINED in there somewhere
         }
+
         if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
             utils.sendMessage(this.client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
         // @ts-ignore
-        utils.sendMessage(this.client, stats.modes[this.virtual.currentMode].f(this.virtual.config, args), "hi :)")
+        const m = stats.modes[this.virtual.currentMode].f(this.virtual.config, args)
+        for (const _ of m) {
+            utils.sendMessage(this.client, _, "hi :)")
+        }
     }
 }
