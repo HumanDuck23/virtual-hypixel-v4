@@ -84,7 +84,7 @@ export class PlayerStats extends ModuleBase {
                 if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
                     utils.sendMessage(this.client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
                 // @ts-ignore
-                utils.sendMessage(this.client, stats.modes[this.virtual.currentMode].f(args), "hi :)")
+                utils.sendMessage(this.client, stats.modes[this.virtual.currentMode].f(this.virtual.config, args), "hi :)")
             })
     }
 }

@@ -1,3 +1,4 @@
+import { configInterface } from "../interfaces/configInterface"
 import { utils } from "../../utils/utils"
 import { mcColors } from "./mcColors"
 
@@ -5,9 +6,9 @@ export const stats = {
     modes: {
       "DUELS_SUMO_DUEL": {
           // @ts-ignore
-          f: function (args: any[]) {
+          f: function (config: configInterface, args: any[]) {
               // @ts-ignore
-              return stats.winsLossesWinstreakBestWinstreak(...args)
+              return stats.winsLossesWinstreakBestWinstreak(config, ...args)
           },
           keys: [
               "stats.Duels.sumo_duel_wins",
@@ -18,33 +19,33 @@ export const stats = {
       }
     },
 
-    winsLossesWinstreakBestWinstreak(player: any, wins: any, losses: any, ws: any, bws: any) {
+    winsLossesWinstreakBestWinstreak(config: configInterface, player: any, wins: any, losses: any, ws: any, bws: any) {
         const bar = utils.colorText("II", mcColors.DARK_BLUE, false, false, false, false, true)
 
-        const w = utils.colorText(`Wins: ${wins}`, mcColors.GREEN)
-        const l = utils.colorText(`Losses: ${losses}`, mcColors.RED)
-        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, mcColors.BLUE)
+        const w = utils.colorText(`Wins: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
+        const l = utils.colorText(`Losses: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
+        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, this.getColor(config.stats.wlr ?? "BLUE", mcColors.BLUE))
 
-        const wsT =  utils.colorText(`WS: ${ws}`, mcColors.LIGHT_PURPLE)
-        const bwsT =  utils.colorText(`BWS: ${bws}`, mcColors.DARK_PURPLE)
+        const wsT =  utils.colorText(`WS: ${ws}`, this.getColor(config.stats.ws ?? "LIGHT_PURPLE", mcColors.LIGHT_PURPLE))
+        const bwsT =  utils.colorText(`BWS: ${bws}`, this.getColor(config.stats.bws ?? "DARK_PURPLE", mcColors.DARK_PURPLE))
 
         return utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${wsT} - ${bwsT}`, mcColors.WHITE)
     },
 
-    killsDeathsWinsLossesWinstreakBestWinstreak(player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any) {
+    killsDeathsWinsLossesWinstreakBestWinstreak(config: configInterface, player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any) {
         // some good method naming right there
         const bar = utils.colorText("II", mcColors.DARK_BLUE, false, false, false, false, true)
 
-        const w = utils.colorText(`Wins: ${wins}`, mcColors.GREEN)
-        const l = utils.colorText(`Losses: ${losses}`, mcColors.RED)
-        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, mcColors.BLUE)
+        const w = utils.colorText(`Wins: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
+        const l = utils.colorText(`Losses: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
+        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, this.getColor(config.stats.wlr ?? "BLUE", mcColors.BLUE))
 
-        const k = utils.colorText(`Kills: ${kills}`, mcColors.GREEN)
-        const d = utils.colorText(`Deaths: ${deaths}`, mcColors.RED)
-        const kdr = utils.colorText(`K/D: ${(parseInt(kills) / (parseInt(deaths) !== 0 ? parseInt(deaths) : 1)).toFixed(2)}`, mcColors.BLUE)
+        const k = utils.colorText(`Kills: ${kills}`, this.getColor(config.stats.kills ?? "GREEN", mcColors.GREEN))
+        const d = utils.colorText(`Deaths: ${deaths}`, this.getColor(config.stats.deaths ?? "RED", mcColors.RED))
+        const kdr = utils.colorText(`K/D: ${(parseInt(kills) / (parseInt(deaths) !== 0 ? parseInt(deaths) : 1)).toFixed(2)}`, this.getColor(config.stats.kdr ?? "BLUE", mcColors.BLUE))
 
-        const wsT =  utils.colorText(`WS: ${ws}`, mcColors.LIGHT_PURPLE)
-        const bwsT =  utils.colorText(`BWS: ${bws}`, mcColors.DARK_PURPLE)
+        const wsT =  utils.colorText(`WS: ${ws}`, this.getColor(config.stats.ws ?? "LIGHT_PURPLE", mcColors.LIGHT_PURPLE))
+        const bwsT =  utils.colorText(`BWS: ${bws}`, this.getColor(config.stats.bws ?? "DARK_PURPLE", mcColors.DARK_PURPLE))
 
         return utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${k} - ${d} - ${kdr} - ${wsT} - ${bwsT}`, mcColors.WHITE)
     },
@@ -63,4 +64,14 @@ export const stats = {
         }
         return utils.colorText(player.displayname, mcColors.GRAY)
     },
+
+    getColor(color: string, other: mcColors): mcColors {
+        // @ts-ignore
+        if (mcColors[color] !== undefined) {
+            // @ts-ignore
+            return mcColors[color]
+        }
+
+        return other
+    }
 }
