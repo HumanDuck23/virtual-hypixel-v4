@@ -4,3 +4,4 @@ package-lock.json
 *.js
 src/config_.json
 src/tests.ts
+src/config_priv.yaml
