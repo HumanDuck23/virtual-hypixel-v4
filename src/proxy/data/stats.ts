@@ -6,7 +6,6 @@ export const stats = {
       "DUELS_SUMO_DUEL": {
           // @ts-ignore
           f: function (args: any[]) {
-              console.log(args)
               // @ts-ignore
               return stats.winsLossesWinstreakBestWinstreak(...args)
           },
@@ -49,9 +48,6 @@ export const stats = {
 
         return utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${k} - ${d} - ${kdr} - ${wsT} - ${bwsT}`, mcColors.WHITE)
     },
-
-
-
 
     getPlayerText(player: any) {
         if (player.monthlyPackageRank === "SUPERSTAR") {
