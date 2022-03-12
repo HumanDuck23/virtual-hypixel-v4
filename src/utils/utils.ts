@@ -33,7 +33,7 @@ export const utils = {
     getProfile(uuid: string, mode: "uuid" | "name" = "uuid"): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
-                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`)
+                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout: 5000 })
                 if (res.status === 200) {
                     uuid = res.data.id
                 } else {
@@ -56,8 +56,8 @@ export const utils = {
      */
     sameGameMode(uuid1: string, uuid2: string, apiKey: string): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`)
-            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`)
+            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { timeout: 5000 })
+            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { timeout: 5000 })
 
             if (res1.status === 200 && res2.status === 200) {
                 if (res1.data.session.online && res2.data.session.online) {
@@ -76,7 +76,7 @@ export const utils = {
      */
     getStats(uuid: string, apiKey: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`)
+            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { timeout: 5000 })
             if (res.data.success) {
                 resolve(res.data.player)
             } else {
