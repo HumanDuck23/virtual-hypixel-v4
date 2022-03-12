@@ -34,7 +34,8 @@ export interface configInterface {
         deaths: string | undefined,
         kdr: string | undefined,
         ws: string | undefined,
-        bws: string | undefined
+        bws: string | undefined,
+        fkdr: string | undefined
     },
 
     other: {
