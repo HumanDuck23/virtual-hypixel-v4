@@ -13,6 +13,7 @@
     "axios": "^0.26.0",
     "colorts": "^0.1.63",
     "prismarine-chat": "^1.6.0",
-    "prismarine-proxy": "^1.1.1"
+    "prismarine-proxy": "^1.1.1",
+    "yaml": "^1.10.2"
   }
 }
