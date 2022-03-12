@@ -121,7 +121,7 @@ export const utils = {
             const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
-                    resolve(res.data.name)
+                    resolve(res.data.id)
                 } else {
                     reject(-1)
                 }
