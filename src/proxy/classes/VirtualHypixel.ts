@@ -36,6 +36,10 @@ export class VirtualHypixel {
 
     constructor(public configPath: string) {
         this.config = YAML.parse(fs.readFileSync(this.configPath).toString())
+        if (this.config.stats === null) {
+            // @ts-ignore
+            this.config.stats = {}
+        }
     }
 
     start() {
