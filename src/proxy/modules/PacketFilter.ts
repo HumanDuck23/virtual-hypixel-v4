@@ -9,7 +9,7 @@ import { ModuleBase } from "./base/ModuleBase"
 export class PacketFilter extends ModuleBase {
 
     constructor(client: Client, virtual: VirtualHypixel) {
-        super("Packet Filter", "1.0.0", client, virtual);
+        super("Packet Filter", "1.0.1", client, virtual);
     }
 
     onInPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
@@ -17,6 +17,13 @@ export class PacketFilter extends ModuleBase {
 
         if (data.data && data.data.toString().toLowerCase().includes("hypixel") && this.virtual.config.packet.enableMods) return [true, data]
         if (data.channel && data.channel === "badlion:mods" && this.virtual.config.packet.enableMods) return [true, data]
+
+        if (meta.name === "scoreboard_team") {
+            //fs.appendFileSync("./packetLog.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
+            if (data.prefix === "§7§k") data.prefix = "§7"
+        }
+
+        //fs.appendFileSync("./packetLog.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
 
         return [false, data]
     }
