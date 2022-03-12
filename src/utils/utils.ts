@@ -113,6 +113,23 @@ export const utils = {
     },
 
     /**
+     * Convert a username to a UUID
+     * @param name
+     */
+    usernameToUUID(name: string): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
+            if (res) {
+                if (res.status === 200) {
+                    resolve(res.data.name)
+                } else {
+                    reject(-1)
+                }
+            } else reject(-1)
+        })
+    },
+
+    /**
      * Send a message to the client
      * @param client - Client instance
      * @param m - Message
