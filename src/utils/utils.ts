@@ -18,6 +18,19 @@ export const utils = {
     },
 
     /**
+     * Repeats a string n times
+     * @param str
+     * @param n
+     */
+    repeatStr(str: string, n: number): string {
+        let t = ""
+        for (let i = 0; i < n; i++) {
+            t += str
+        }
+        return t
+    },
+
+    /**
      * Checks whether the UUID is valid for a player
      * @param uuid - The UUID to check
      */
