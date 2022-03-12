@@ -8,18 +8,21 @@ export interface configInterface {
 
     packet: {
         enableMods: boolean,
-        particles: boolean,
         deObf: boolean
     },
 
     modules: {
         packetFilter: boolean,
         playerModule: boolean,
-        autoDodge: boolean,
-        streamMod: boolean
+        fpsBoost: boolean
     },
 
     inGameSettings: {
         open: string
+    },
+
+    fpsBoost: {
+        particles: boolean,
+        fireworks: boolean
     }
 }
