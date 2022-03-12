@@ -4,19 +4,24 @@ import { mcColors } from "./mcColors"
 
 export const stats = {
     modes: {
-      "DUELS_SUMO_DUEL": {
-          // @ts-ignore
-          f: function (config: configInterface, args: any[]) {
-              // @ts-ignore
-              return stats.winsLossesWinstreakBestWinstreak(config, ...args)
-          },
-          keys: [
-              "stats.Duels.sumo_duel_wins",
-              "stats.Duels.sumo_duel_losses",
-              "stats.Duels.current_sumo_winstreak",
-              "stats.Duels.best_sumo_winstreak",
-          ]
-      }
+        /*
+
+        DUELS MODES
+
+         */
+        "DUELS_SUMO_DUEL": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.winsLossesWinstreakBestWinstreak(config, ...args)
+            },
+            keys: [
+                "stats.Duels.sumo_duel_wins",
+                "stats.Duels.sumo_duel_losses",
+                "stats.Duels.current_sumo_winstreak",
+                "stats.Duels.best_sumo_winstreak",
+            ]
+        }
     },
 
     winsLossesWinstreakBestWinstreak(config: configInterface, player: any, wins: any, losses: any, ws: any, bws: any) {
