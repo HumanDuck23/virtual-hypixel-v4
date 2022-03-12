@@ -33,18 +33,25 @@ export const utils = {
     getProfile(uuid: string, mode: "uuid" | "name" = "uuid"): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
-                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout: 5000 })
+                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout: 5000 }).catch(e => reject(e))
+                if (res) {
+                    if (res.status === 200) {
+                        uuid = res.data.id
+                    } else {
+                        reject(res)
+                    }
+                }
+
+            }
+            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}?unsigned=false`).catch(e => reject(e))
+            if (res) {
                 if (res.status === 200) {
-                    uuid = res.data.id
+                    resolve(res.data)
                 } else {
                     reject(res)
                 }
-            }
-            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}?unsigned=false`)
-            if (res.status === 200) {
-                resolve(res.data)
             } else {
-                reject(res)
+                reject(`Error making request: ${res}`)
             }
         })
     },
@@ -56,17 +63,20 @@ export const utils = {
      */
     sameGameMode(uuid1: string, uuid2: string, apiKey: string): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { timeout: 5000 })
-            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { timeout: 5000 })
-
-            if (res1.status === 200 && res2.status === 200) {
-                if (res1.data.session.online && res2.data.session.online) {
-                    resolve(res1.data.session.mode === res2.data.session.mode)
+            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { timeout: 5000 }).catch(e => reject(e))
+            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { timeout: 5000 }).catch(e => reject(e))
+            if (res1 && res2) {
+                if (res1.status === 200 && res2.status === 200) {
+                    if (res1.data.session.online && res2.data.session.online) {
+                        resolve(res1.data.session.mode === res2.data.session.mode)
+                    } else {
+                        reject("offline")
+                    }
                 } else {
-                    reject("offline")
+                    reject(-1)
                 }
             } else {
-                reject(-1)
+                reject(`Error making request: ${res1} ${res2}`)
             }
         })
     },
@@ -76,11 +86,15 @@ export const utils = {
      */
     getStats(uuid: string, apiKey: string): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { timeout: 5000 })
-            if (res.data.success) {
-                resolve(res.data.player)
+            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { timeout: 5000 }).catch(e => reject(e))
+            if (res) {
+                if (res.data.success) {
+                    resolve(res.data.player)
+                } else {
+                    reject(`Error with hypixel api: ${res.status}`)
+                }
             } else {
-                reject(`Error with hypixel api: ${res.status}`)
+                reject(`Error making request: ${res}`)
             }
         })
     },
@@ -91,8 +105,10 @@ export const utils = {
      */
     playerExists(name: string): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`)
-            resolve(res.status === 200)
+            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
+            if (res)
+                resolve(res.status === 200)
+            else reject(-1)
         })
     },
 
