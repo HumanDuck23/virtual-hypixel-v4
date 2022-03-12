@@ -46,9 +46,12 @@ export class VirtualHypixel {
                 logger.info(`Logging in as ${client.profile.name}...`)
                 logger.info(`Loading modules...`)
 
-                this.modules.push(new PacketFilter(this.client, this))
                 this.modules.push(new Settings(this.client, this))
-                this.modules.push(new PlayerStats(this.client, this))
+
+                if (this.config.modules.packetFilter)
+                    this.modules.push(new PacketFilter(this.client, this))
+                if (this.config.modules.playerModule)
+                    this.modules.push(new PlayerStats(this.client, this))
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
