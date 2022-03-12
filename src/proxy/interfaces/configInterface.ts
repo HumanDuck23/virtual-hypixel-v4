@@ -24,5 +24,16 @@ export interface configInterface {
     fpsBoost: {
         particles: boolean,
         fireworks: boolean
+    },
+
+    stats: {
+        wins: string | undefined,
+        losses: string | undefined,
+        wlr: string | undefined,
+        kills: string | undefined,
+        deaths: string | undefined,
+        kdr: string | undefined,
+        ws: string | undefined,
+        bws: string | undefined
     }
 }
