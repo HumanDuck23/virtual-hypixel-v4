@@ -35,5 +35,9 @@ export interface configInterface {
         kdr: string | undefined,
         ws: string | undefined,
         bws: string | undefined
+    },
+
+    other: {
+        showCorrectNameAndSkin: boolean
     }
 }
