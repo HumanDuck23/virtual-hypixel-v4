@@ -6,6 +6,7 @@ import { PacketFilter } from "../modules/PacketFilter"
 import { Client, PacketMeta } from "minecraft-protocol"
 import { PlayerStats } from "../modules/PlayerStats"
 import { Settings } from "../modules/Settings"
+import { FPSBoost } from "../modules/FPSBoost"
 import { logger } from "../../utils/logger"
 import axios from "axios"
 import * as fs from "fs"
@@ -52,6 +53,8 @@ export class VirtualHypixel {
                     this.modules.push(new PacketFilter(this.client, this))
                 if (this.config.modules.playerModule)
                     this.modules.push(new PlayerStats(this.client, this))
+                if (this.config.modules.fpsBoost)
+                    this.modules.push(new FPSBoost(this.client, this))
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
