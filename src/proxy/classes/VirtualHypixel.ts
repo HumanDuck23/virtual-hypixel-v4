@@ -4,10 +4,11 @@ import { InstantConnectProxy } from "prismarine-proxy"
 import { WindowManager } from "./window/WindowManager"
 import { PacketFilter } from "../modules/PacketFilter"
 import { Client, PacketMeta } from "minecraft-protocol"
+import { PlayerStats } from "../modules/PlayerStats"
 import { Settings } from "../modules/Settings"
 import { logger } from "../../utils/logger"
+import axios from "axios"
 import * as fs from "fs"
-import axios from "axios";
 
 const ChatMessage = require('prismarine-chat')('1.8')
 
@@ -47,6 +48,7 @@ export class VirtualHypixel {
 
                 this.modules.push(new PacketFilter(this.client, this))
                 this.modules.push(new Settings(this.client, this))
+                this.modules.push(new PlayerStats(this.client, this))
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
