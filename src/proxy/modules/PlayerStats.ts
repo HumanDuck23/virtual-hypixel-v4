@@ -5,7 +5,6 @@ import { logger } from "../../utils/logger"
 import { mcColors } from "../data/mcColors"
 import { utils } from "../../utils/utils"
 import { stats } from "../data/stats"
-import * as fs from "fs";
 
 /**
  * Player Stats Module
@@ -36,45 +35,53 @@ export class PlayerStats extends ModuleBase {
                                 .then(exists => {
                                     if (exists) {
                                         //logger.debug(`${player} exists`)
-                                        utils.getProfile(player, "name")
-                                            .then(profile => {
-                                                utils.getStats(profile.id, this.virtual.config.account.hypixelApiKey)
+                                        utils.usernameToUUID(player)
+                                            .then(uuid => {
+                                               // logger.debug(`got uuid ${uuid}`)
+                                                utils.getStats(uuid, this.virtual.config.account.hypixelApiKey)
                                                     .then(playerObj => {
+                                                        //logger.debug(`got stats of ${player}`)
                                                         if (this.virtual.config.other.showCorrectNameAndSkin) {
-                                                            let displayName = stats.getPlayerText(playerObj)
-                                                            const rankRegex = /.*(\[.*\]).*/
-                                                            if (rankRegex.exec(displayName) !== null) {
-                                                                // @ts-ignore
-                                                                displayName = displayName.replace(rankRegex.exec(displayName)[1], "")
-                                                                displayName = displayName.replace(" ", "")
-                                                            }
-                                                            this.client?.write("player_info", { action: 0, data: [{ UUID: profile.id, name: displayName.length <= 16 ? displayName : profile.name, properties: profile.properties }], gamemode: 2, ping: 100 })
-                                                            // ^ attempt at making it show the correct skin and stuff lol, thats still a TODO
-                                                            this.tabList.push(profile.id)
+                                                            utils.getProfile(player, "name")
+                                                                .then(profile => {
+                                                                    let displayName = stats.getPlayerText(playerObj)
+                                                                    const rankRegex = /.*(\[.*\]).*/
+                                                                    if (rankRegex.exec(displayName) !== null) {
+                                                                        // @ts-ignore
+                                                                        displayName = displayName.replace(rankRegex.exec(displayName)[1], "")
+                                                                        displayName = displayName.replace(" ", "")
+                                                                    }
+                                                                    this.client?.write("player_info", { action: 0, data: [{ UUID: uuid, name: displayName.length <= 16 ? displayName : player, properties: profile.properties }], gamemode: 2, ping: 100 })
+                                                                    // ^ attempt at making it show the correct skin and stuff lol, thats still a TODO
+                                                                    this.tabList.push(uuid)
+                                                                })
+                                                                .catch(e => {
+                                                                    logger.error(`Error getting profile of ${player}: ${e}`)
+                                                                })
                                                         }
 
                                                         if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
-                                                            utils.sameGameMode(profile.id, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
+                                                            utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
                                                                 .then(same => {
                                                                     //logger.debug(`${player} same: ${same}`)
                                                                     if (same) {
-                                                                        this.showStats(playerObj, profile)
+                                                                        this.showStats(playerObj)
                                                                     }
                                                                 })
                                                                 .catch(e => {
                                                                     if (e === "offline") {
                                                                         //logger.debug(`${player} offline`)
-                                                                        this.showStats(playerObj, profile, true)
+                                                                        this.showStats(playerObj, true)
                                                                     }
                                                                 })
                                                         }
                                                     })
                                                     .catch(e => {
-                                                        logger.error(`Error getting stats of ${profile.name} - ${e}`)
+                                                        logger.error(`Error getting stats of ${player} - ${e}`)
                                                     })
                                             })
                                             .catch(e => {
-                                                logger.error(`Error getting profile of ${player}: ${e}`)
+                                                logger.error(`Error getting UUID of ${player}: ${e}`)
                                             })
                                     }
                                 })
@@ -96,7 +103,7 @@ export class PlayerStats extends ModuleBase {
      * @param profile - Profile fetched with the utils method
      * @param maybe - Whether this player is not definitely in the game
      */
-    showStats(stat: any, profile: any, maybe: boolean = false) {
+    showStats(stat: any, maybe: boolean = false) {
         const args = [stat]
         // @ts-ignore
         for (const arg of stats.modes[this.virtual.currentMode].keys) {
