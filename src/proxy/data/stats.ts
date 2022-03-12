@@ -1,5 +1,5 @@
-import {utils} from "../../utils/utils";
-import {mcColors} from "./mcColors";
+import { utils } from "../../utils/utils"
+import { mcColors } from "./mcColors"
 
 export const stats = {
     modes: {
