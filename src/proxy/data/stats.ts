@@ -1,6 +1,7 @@
 import { configInterface } from "../interfaces/configInterface"
 import { utils } from "../../utils/utils"
 import { mcColors } from "./mcColors"
+import {bwPrestiges} from "./bwPrestiges";
 
 export const stats = {
     modes: {
@@ -333,6 +334,96 @@ export const stats = {
                 "stats.Duels.current_winstreak_mode_combo_duel",
                 "stats.Duels.best_winstreak_mode_combo_duel",
             ]
+        },
+        /*
+
+        BEDWARS MODES
+
+         */
+        "BEDWARS_EIGHT_ONE": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+            },
+            keys: [
+                "achievements.bedwars_level",
+                "stats.Bedwars.wins_bedwars",
+                "stats.Bedwars.losses_bedwars",
+                "stats.Bedwars.final_kills_bedwars",
+                "stats.Bedwars.final_deaths_bedwars",
+                "stats.Bedwars.beds_broken_bedwars",
+                "stats.Bedwars.beds_lost_bedwars",
+                "stats.Bedwars.eight_one_winstreak"
+            ]
+        },
+        "BEDWARS_EIGHT_TWO": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+            },
+            keys: [
+                "achievements.bedwars_level",
+                "stats.Bedwars.wins_bedwars",
+                "stats.Bedwars.losses_bedwars",
+                "stats.Bedwars.final_kills_bedwars",
+                "stats.Bedwars.final_deaths_bedwars",
+                "stats.Bedwars.beds_broken_bedwars",
+                "stats.Bedwars.beds_lost_bedwars",
+                "stats.Bedwars.eight_two_winstreak"
+            ]
+        },
+        "BEDWARS_FOUR_THREE": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+            },
+            keys: [
+                "achievements.bedwars_level",
+                "stats.Bedwars.wins_bedwars",
+                "stats.Bedwars.losses_bedwars",
+                "stats.Bedwars.final_kills_bedwars",
+                "stats.Bedwars.final_deaths_bedwars",
+                "stats.Bedwars.beds_broken_bedwars",
+                "stats.Bedwars.beds_lost_bedwars",
+                "stats.Bedwars.four_three_winstreak"
+            ]
+        },
+        "BEDWARS_FOUR_FOUR": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+            },
+            keys: [
+                "achievements.bedwars_level",
+                "stats.Bedwars.wins_bedwars",
+                "stats.Bedwars.losses_bedwars",
+                "stats.Bedwars.final_kills_bedwars",
+                "stats.Bedwars.final_deaths_bedwars",
+                "stats.Bedwars.beds_broken_bedwars",
+                "stats.Bedwars.beds_lost_bedwars",
+                "stats.Bedwars.four_four_winstreak"
+            ]
+        },
+        "BEDWARS_TWO_FOUR": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+            },
+            keys: [
+                "achievements.bedwars_level",
+                "stats.Bedwars.wins_bedwars",
+                "stats.Bedwars.losses_bedwars",
+                "stats.Bedwars.final_kills_bedwars",
+                "stats.Bedwars.final_deaths_bedwars",
+                "stats.Bedwars.beds_broken_bedwars",
+                "stats.Bedwars.beds_lost_bedwars",
+                "stats.Bedwars.two_four_winstreak"
+            ]
         }
     },
 
@@ -346,7 +437,28 @@ export const stats = {
         const wsT =  utils.colorText(`WS: ${ws}`, this.getColor(config.stats.ws ?? "LIGHT_PURPLE", mcColors.LIGHT_PURPLE))
         const bwsT =  utils.colorText(`BWS: ${bws}`, this.getColor(config.stats.bws ?? "DARK_PURPLE", mcColors.DARK_PURPLE))
 
-        return utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${wsT} - ${bwsT}`, mcColors.WHITE)
+        return [utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${wsT} - ${bwsT}`, mcColors.WHITE)]
+    },
+
+    starWinsLossesFKDRBBLRWS(config: configInterface, player: any, star: any, wins: any, losses: any, fkills: any, fdeaths: any, bb: any, bl: any, ws: any) {
+        const bar = utils.colorText("II", mcColors.DARK_BLUE, false, false, false, false, true)
+
+        const w = utils.colorText(`Wins: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
+        const l = utils.colorText(`Losses: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
+        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, this.getColor(config.stats.wlr ?? "BLUE", mcColors.BLUE))
+
+        const fk = utils.colorText(`Finals: ${fkills}`, this.getColor(config.stats.fkills ?? "GREEN", mcColors.GREEN))
+        const fkdr = utils.colorText(`W/L: ${(parseInt(fkills) / (parseInt(fdeaths) !== 0 ? parseInt(fdeaths) : 1)).toFixed(2)}`, this.getColor(config.stats.fkdr ?? "BLUE", mcColors.BLUE))
+
+        const bbT = utils.colorText(`Beds: ${bb}`, this.getColor(config.stats.fkills ?? "GREEN", mcColors.GREEN))
+        const bblr = utils.colorText(`BB/L: ${(parseInt(bb) / (parseInt(bl) !== 0 ? parseInt(bl) : 1)).toFixed(2)}`, this.getColor(config.stats.fkdr ?? "BLUE", mcColors.BLUE))
+
+
+        const wsT =  utils.colorText(`WS: ${ws}`, this.getColor(config.stats.ws ?? "LIGHT_PURPLE", mcColors.LIGHT_PURPLE))
+
+        const starT = this.colorStar(parseInt(star.toString()))
+
+        return [utils.colorText(`${bar} ${this.getPlayerText(player)} - ${starT} - ${w} - ${l} - ${wlr}`, mcColors.WHITE), utils.colorText(`${bar} ${fk} - ${fkdr} - ${bbT} - ${bblr} - ${wsT}`, mcColors.WHITE)]
     },
 
     killsDeathsWinsLossesWinstreakBestWinstreak(config: configInterface, player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any) {
@@ -364,7 +476,7 @@ export const stats = {
         const wsT =  utils.colorText(`WS: ${ws}`, this.getColor(config.stats.ws ?? "LIGHT_PURPLE", mcColors.LIGHT_PURPLE))
         const bwsT =  utils.colorText(`BWS: ${bws}`, this.getColor(config.stats.bws ?? "DARK_PURPLE", mcColors.DARK_PURPLE))
 
-        return utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${k} - ${d} - ${kdr} - ${wsT} - ${bwsT}`, mcColors.WHITE)
+        return [utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${k} - ${d} - ${kdr} - ${wsT} - ${bwsT}`, mcColors.WHITE)]
     },
 
     getPlayerText(player: any) {
@@ -380,6 +492,41 @@ export const stats = {
             }
         }
         return utils.colorText(player.displayname, mcColors.GRAY)
+    },
+
+    colorStar(star: number): string {
+        const icons = ["✫", "✪", "⚝"]
+        let icon = ""
+
+        let prestige: string[] | number = star.toString().split("")
+        prestige[prestige.length - 1] = "0"
+        prestige[prestige.length - 2] = "0"
+        prestige = parseInt(prestige.join("")) + 100
+
+        if (prestige < 1100) {
+            icon = icons[0]
+        } else if (prestige < 2100) {
+            icon = icons[1]
+        } else {
+            icon = icons[2]
+        }
+
+        // @ts-ignore
+        const colors = bwPrestiges[prestige]
+        const toColor = `[${star}${icon}]`
+
+        let t = ""
+
+        if (colors.length === 1) {
+            t = utils.colorText(toColor, colors[0])
+        } else {
+            for (let [i, char] of toColor.split("").entries()) {
+                t += utils.colorText(char, colors[i])
+            }
+        }
+
+
+        return t
     },
 
     getColor(color: string, other: mcColors): mcColors {
