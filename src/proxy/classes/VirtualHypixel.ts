@@ -9,6 +9,7 @@ import { Settings } from "../modules/Settings"
 import { FPSBoost } from "../modules/FPSBoost"
 import { logger } from "../../utils/logger"
 import axios from "axios"
+import YAML from "yaml"
 import * as fs from "fs"
 
 const ChatMessage = require('prismarine-chat')('1.8')
@@ -34,7 +35,7 @@ export class VirtualHypixel {
     config: configInterface
 
     constructor(public configPath: string) {
-        this.config = JSON.parse(fs.readFileSync(this.configPath).toString())
+        this.config = YAML.parse(fs.readFileSync(this.configPath).toString())
     }
 
     start() {
