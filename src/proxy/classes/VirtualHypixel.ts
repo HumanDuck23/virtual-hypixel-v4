@@ -68,6 +68,8 @@ export class VirtualHypixel {
                 motd: `Virtual Hypixel Server`,
                 maxPlayers: 69,
                 //favicon: fs.readFileSync("./data/favicon.txt").toString()
+                // @ts-ignore
+                validateChannelProtocol: true
             },
             clientOptions: {
                 version: "1.8.9",
