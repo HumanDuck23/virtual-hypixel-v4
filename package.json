@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/node": "^17.0.21",
     "axios": "^0.26.0",
+    "chalk": "^4.1.2",
     "colorts": "^0.1.63",
     "prismarine-chat": "^1.6.0",
     "prismarine-proxy": "^1.1.1",
