@@ -56,6 +56,7 @@ installed.*
 7. Create a file in src: `app.ts`
 8. Paste this code in there:
     ```ts
+   import { VirtualHypixel } from "./proxy/classes/VirtualHypixel"
     const vh = new VirtualHypixel("./config_priv.yaml")
     vh.start()
     ```
