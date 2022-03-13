@@ -1,4 +1,6 @@
 import color from "colorts"
+import chalk from "chalk"
+
 
 /**
  * Logger Util
@@ -9,7 +11,7 @@ export const logger = {
      * @param text - Message
      */
     debug(text: string) {
-        console.log(color(`[${new Date().toISOString()}] [info] ${color(text).white}`).magenta.bold.toString())
+        console.log(chalk.bold.magenta(`[${new Date().toISOString()}] [info] ${color(text).white}`))
     },
 
     /**
@@ -17,7 +19,7 @@ export const logger = {
      * @param text - Message
      */
     info(text: string) {
-        console.log(color(`[${new Date().toISOString()}] [info] ${color(text).white}`).cyan.bold.toString())
+        console.log(chalk.bold.cyan(`[${new Date().toISOString()}] [info] ${color(text).white}`))
     },
 
     /**
@@ -25,7 +27,7 @@ export const logger = {
      * @param text - Message
      */
     warn(text: string) {
-        console.log(color(`[${new Date().toISOString()}] [warn] ${color(text).white}`).yellow.bold.toString())
+        console.log(chalk.bold.yellow(`[${new Date().toISOString()}] [warn] ${color(text).white}`))
     },
 
     /**
@@ -33,6 +35,6 @@ export const logger = {
      * @param text - Message
      */
     error(text: string) {
-        console.log(color(`[${new Date().toISOString()}] [error] ${color(text).white}`).red.bold.toString())
+        console.log(chalk.bold.red(`[${new Date().toISOString()}] [error] ${color(text).white}`))
     }
 }
