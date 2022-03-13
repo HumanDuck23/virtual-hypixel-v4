@@ -95,7 +95,7 @@ export class PlayerStats extends ModuleBase {
             }
         }
 
-        if (meta.name === "named_entity_spawn" && this.virtual.inGame) {
+        /*if (meta.name === "named_entity_spawn" && this.virtual.inGame) {
             if (data.playerUUID && utils.realUUID(data.playerUUID)) {
                 //logger.debug(`${data.playerUUID} spawned`)
                 utils.uuidToUsername(data.playerUUID)
@@ -137,7 +137,7 @@ export class PlayerStats extends ModuleBase {
                     })
             }
             fs.appendFileSync("./packetLog2.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
-        }
+        }*/
 
         return [false, data]
     }
