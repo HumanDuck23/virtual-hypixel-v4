@@ -5,6 +5,7 @@ import { WindowManager } from "./window/WindowManager"
 import { PacketFilter } from "../modules/PacketFilter"
 import { Client, PacketMeta } from "minecraft-protocol"
 import { PlayerStats } from "../modules/PlayerStats"
+import { BetterInvis } from "../modules/BetterInvis"
 import { BetterPing } from "../modules/BetterPing"
 import { Settings } from "../modules/Settings"
 import { FPSBoost } from "../modules/FPSBoost"
@@ -29,6 +30,7 @@ export class VirtualHypixel {
     inGame: boolean | null = false
     lastRespawn: number = 0
     currentMode: string | undefined
+    position: any = {}
 
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
@@ -63,6 +65,8 @@ export class VirtualHypixel {
                     this.modules.push(new FPSBoost(this.client, this))
                 if (this.config.modules.betterPing)
                     this.modules.push(new BetterPing(this.client, this))
+                if (this.config.modules.betterInvis)
+                    this.modules.push(new BetterInvis(this.client, this))
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
@@ -125,6 +129,10 @@ export class VirtualHypixel {
 
         // @ts-ignore
         this.proxy.on('outgoing', (data, meta, toClient, toServer) => {
+            if (meta.name === "position") {
+                this.position = data
+            }
+
             let winIntercept = this.windowManager.onOutPacket(meta, data, toServer)
 
             const handled = this.handlePacket(meta, data, toServer, true)
