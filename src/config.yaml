@@ -29,7 +29,7 @@ fpsBoost:
 
 # BetterPing options
 betterPing:
-  interval: 1000
+  interval: 5000
 
 # (OPTIONAL) Customization for the stats shown (check src/proxy/interfaces/configInterface.ts for accepted keys
 stats:
