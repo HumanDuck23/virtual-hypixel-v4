@@ -1,6 +1,7 @@
 import { VirtualHypixel } from "../classes/VirtualHypixel"
 import { ModuleBase } from "./base/ModuleBase"
 import { Client, PacketMeta, ping } from "minecraft-protocol"
+import { logger } from "../../utils/logger"
 import { utils } from "../../utils/utils"
 
 /**
@@ -24,6 +25,9 @@ export class BetterPing extends ModuleBase {
                     .then(e => {
                         // @ts-ignore
                         this.client.write("player_info", { action: 2, data: [ { UUID: utils.toDashUUID(this.client.profile.id), ping: e.latency } ] })
+                    })
+                    .catch(e => {
+                        logger.error(`Error pinging: ${e}`)
                     })
             }, this.virtual.config.betterPing.interval ?? 5000)
         }
