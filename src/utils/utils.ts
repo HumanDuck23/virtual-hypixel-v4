@@ -42,8 +42,10 @@ export const utils = {
      * Get minecraft session profile
      * For skins etc
      * @param uuid - UUID of the player
+     * @param mode - Use uuid or name
+     * @param sig - Get signature
      */
-    getProfile(uuid: string, mode: "uuid" | "name" = "uuid"): Promise<any> {
+    getProfile(uuid: string, mode: "uuid" | "name" = "uuid", sig: boolean = true): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
                 const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout: 5000 }).catch(e => reject(e))
@@ -56,7 +58,7 @@ export const utils = {
                 }
 
             }
-            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}?unsigned=false`).catch(e => reject(e))
+            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     resolve(res.data)
