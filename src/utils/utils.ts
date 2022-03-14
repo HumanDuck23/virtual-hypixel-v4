@@ -175,6 +175,16 @@ export const utils = {
         client.write("chat", message)
     },
 
+    toDashUUID(uuid: string) {
+        let nuuid = ""
+        nuuid += uuid.substring(0, 8) + "-"
+        nuuid += uuid.substring(8, 12) + "-"
+        nuuid += uuid.substring(12, 16) + "-"
+        nuuid += uuid.substring(16, 20) + "-"
+        nuuid += uuid.substring(20, 32)
+        return nuuid
+    },
+
     /**
      * Color the text
      * @param text
