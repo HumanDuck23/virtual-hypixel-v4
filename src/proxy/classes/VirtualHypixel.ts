@@ -61,8 +61,8 @@ export class VirtualHypixel {
                     this.modules.push(new PlayerStats(this.client, this))
                 if (this.config.modules.fpsBoost)
                     this.modules.push(new FPSBoost(this.client, this))
-
-                this.modules.push(new BetterPing(this.client, this))
+                if (this.config.modules.betterPing)
+                    this.modules.push(new BetterPing(this.client, this))
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },

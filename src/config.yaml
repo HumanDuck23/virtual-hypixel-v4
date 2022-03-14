@@ -17,6 +17,7 @@ modules:
   packetFilter: true
   playerModule: true
   fpsBoost: true
+  betterPing: true
 
 # Options for the settings window
 inGameSettings:

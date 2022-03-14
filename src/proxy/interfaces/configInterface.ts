@@ -14,7 +14,8 @@ export interface configInterface {
     modules: {
         packetFilter: boolean,
         playerModule: boolean,
-        fpsBoost: boolean
+        fpsBoost: boolean,
+        betterPing: boolean
     },
 
     inGameSettings: {
