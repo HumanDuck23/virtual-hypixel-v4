@@ -5,7 +5,6 @@ import { logger } from "../../utils/logger"
 import { mcColors } from "../data/mcColors"
 import { utils } from "../../utils/utils"
 import { stats } from "../data/stats"
-import * as fs from "fs";
 
 /**
  * Player Stats Module
