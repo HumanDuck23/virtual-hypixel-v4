@@ -27,6 +27,10 @@ fpsBoost:
   particles: true
   fireworks: true
 
+# BetterPing options
+betterPing:
+  interval: 1000
+
 # (OPTIONAL) Customization for the stats shown (check src/proxy/interfaces/configInterface.ts for accepted keys
 stats:
   #wins: GOLD -> makes the amount of wins shown in GOLD

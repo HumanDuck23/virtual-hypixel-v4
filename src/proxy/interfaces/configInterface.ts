@@ -26,6 +26,10 @@ export interface configInterface {
         fireworks: boolean
     },
 
+    betterPing: {
+      interval: 5000
+    },
+
     stats: {
         wins: string | undefined,
         losses: string | undefined,
