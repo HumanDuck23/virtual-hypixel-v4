@@ -163,4 +163,8 @@ export class VirtualHypixel {
         return { intercept, meta, data }
     }
 
+    writeConfig() {
+        fs.writeFileSync(this.configPath, "# Check: https://github.com/HumanDuck23/virtual-hypixel-v4/blob/master/src/config.yaml\n" + YAML.stringify(this.config))
+    }
+
 }
