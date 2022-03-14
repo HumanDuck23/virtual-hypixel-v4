@@ -18,6 +18,7 @@ modules:
   playerModule: true
   fpsBoost: true
   betterPing: true
+  betterInvis: false
 
 # Options for the settings window
 inGameSettings:
