@@ -43,4 +43,9 @@ export class ModuleBase {
     onOutPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
         return [false, data]
     }
+
+    /**
+     * Called when the client connects to a server
+     */
+    onConnect() {}
 }
