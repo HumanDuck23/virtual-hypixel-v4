@@ -1,3 +1,4 @@
+import { windowClickEvent } from "../../interfaces/windowClickEvent"
 import { Client, PacketMeta } from "minecraft-protocol"
 import { Window } from "./Window"
 import { Item } from "./item/Item"
@@ -16,7 +17,7 @@ export class WindowManager {
      * @param slots - Slot count
      * @param onClick - Will be called when a click event occurs
      */
-    createWindow(client: Client, windowId: number, title: string, slots: number, onClick: () => void) {
+    createWindow(client: Client, windowId: number, title: string, slots: number, onClick: (event: windowClickEvent) => void) {
         this.windows[windowId] = new Window(windowId, "minecraft:chest", title, slots)
         this.windows[windowId].on("click", onClick)
 
