@@ -37,6 +37,10 @@ export class Item {
     }
 
     static getName(nbtData: any) {
-        return nbtData.value.display.value.Name.value
+        try {
+            return nbtData.value.display.value.Name.value
+        } catch (e) {
+            return ""
+        }
     }
 }
