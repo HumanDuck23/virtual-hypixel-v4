@@ -106,6 +106,9 @@ export class VirtualHypixel {
                                 logger.error(`Error with hypixel api: ${res.status}`)
                             }
                         })
+                        .catch(e => {
+                            logger.error(`Error getting your status: ${e}`)
+                        })
                 }
 
             } else if (meta.name === "chat") {
