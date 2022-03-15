@@ -36,7 +36,7 @@ V4 of [Virtual Hypixel](https://github.com/HumanDuck23/virtual-hypixel).
 
 - Pre-Game Stats
   - [x] All Duels Modes
-  - [x] Bedwars
+  - [x] Bedwars (temporarily removed for fixes)
   - [ ] Skywars
   - [ ] Maybe some more...
 
