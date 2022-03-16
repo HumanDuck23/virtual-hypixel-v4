@@ -13,6 +13,12 @@ export class BetterPing extends ModuleBase {
 
     constructor(client: Client, virtual: VirtualHypixel) {
         super("Better Ping", "1.0.0", client, virtual);
+        this.virtual.client?.on("end", () => {
+            if (this.pingInterval) {
+                clearInterval(this.pingInterval)
+                this.pingInterval = null
+            }
+        })
     }
 
     onInPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
