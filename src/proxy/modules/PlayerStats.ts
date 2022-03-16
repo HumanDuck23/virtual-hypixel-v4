@@ -13,6 +13,7 @@ import { stats } from "../data/stats"
 export class PlayerStats extends ModuleBase {
 
     tabList: string[] = []
+    sentPlayers: string[] = []
 
     constructor(client: Client, virtual: VirtualHypixel) {
         super("Player Stats", "1.0.0", client, virtual);
@@ -24,6 +25,7 @@ export class PlayerStats extends ModuleBase {
             for (const uuid of this.tabList) {
                 this.client?.write("player_info", { action: 4, data: [{ UUID: uuid }] })
             }
+            this.sentPlayers = []
         }
 
         if (meta.name === "scoreboard_team" && !this.virtual.gameStarted) {
@@ -94,46 +96,50 @@ export class PlayerStats extends ModuleBase {
             }
         }
 
-        if (meta.name === "named_entity_spawn" && this.virtual.inGame && !this.virtual.gameStarted) {
-            if (data.playerUUID && utils.realUUID(data.playerUUID)) {
+        if (meta.name === "player_info" && data.action === 0 && data.data[0].properties && this.virtual.inGame && !this.virtual.gameStarted) {
+            if (data.data[0].UUID && utils.realUUID(data.data[0].UUID) && data.data[0].UUID !== utils.toDashUUID(this.client.profile.id)) {
                 //logger.debug(`${data.playerUUID} spawned`)
-                utils.uuidToUsername(data.playerUUID)
-                    .then(name => {
-                        utils.sameGameMode(data.playerUUID, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
-                            .then(same => {
-                                //.debug(`${name} same: ${same}`)
-                                if (same) {
-                                    utils.getStats(data.playerUUID, this.virtual.config.account.hypixelApiKey)
-                                        .then(playerObj => {
-                                            //logger.debug(`got stats of ${name}`)
-                                            if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
-                                                this.showStats(playerObj)
-                                            }
-                                        })
-                                        .catch(e => {
-                                            logger.error(`Error getting stats of ${name} - ${e}`)
-                                        })
-                                }
-                            })
-                            .catch(e => {
-                                if (e === "offline") {
-                                    //logger.debug(`${name} offline`)
-                                    utils.getStats(data.playerUUID, this.virtual.config.account.hypixelApiKey)
-                                        .then(playerObj => {
-                                            //logger.debug(`got stats of ${name}`)
-                                            if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
-                                                this.showStats(playerObj, true)
-                                            }
-                                        })
+                const uuid = data.data[0].UUID
+                if (!this.sentPlayers.includes(uuid)) {
+                    this.sentPlayers.push(uuid)
+                    utils.uuidToUsername(uuid)
+                        .then(name => {
+                            utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
+                                .then(same => {
+                                    //.debug(`${name} same: ${same}`)
+                                    if (same) {
+                                        utils.getStats(uuid, this.virtual.config.account.hypixelApiKey)
+                                            .then(playerObj => {
+                                                //logger.debug(`got stats of ${name}`)
+                                                if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
+                                                    this.showStats(playerObj)
+                                                }
+                                            })
+                                            .catch(e => {
+                                                logger.error(`Error getting stats of ${name} - ${e}`)
+                                            })
+                                    }
+                                })
+                                .catch(e => {
+                                    if (e === "offline") {
+                                        //logger.debug(`${name} offline`)
+                                        utils.getStats(uuid, this.virtual.config.account.hypixelApiKey)
+                                            .then(playerObj => {
+                                                //logger.debug(`got stats of ${name}`)
+                                                if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
+                                                    this.showStats(playerObj, true)
+                                                }
+                                            })
                                         //.catch(e => {
                                         //    logger.error(`Error getting stats of ${name} - ${e}`)
                                         //})
-                                }
-                            })
-                    })
-                    .catch(e => {
-                        logger.error(`Error converting UUID ${data.playerUUID} to username - ${e}`)
-                    })
+                                    }
+                                })
+                        })
+                        .catch(e => {
+                            logger.error(`Error converting UUID ${uuid} to username - ${e}`)
+                        })
+                }
             }
             //fs.appendFileSync("./packetLog2.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
         }
