@@ -31,12 +31,12 @@ V4 of [Virtual Hypixel](https://github.com/HumanDuck23/virtual-hypixel).
 
 - [x] FPS Boost
 - [x] Packet Filter
-- [ ] In Game Settings
+- [x] In Game Settings
 
 
 - Pre-Game Stats
   - [x] All Duels Modes
-  - [x] Bedwars (temporarily removed for fixes)
+  - [x] Bedwars
   - [ ] Skywars
   - [ ] Maybe some more...
 
