@@ -58,6 +58,13 @@ export class VirtualHypixel {
                 logger.info(`Logging in as ${client.profile.name}...`)
                 logger.info(`Loading modules...`)
 
+                this.moduleToggles["Packet Filter"] = this.config.modules.packetFilter
+                this.moduleToggles["Player Stats"] = this.config.modules.playerModule
+                this.moduleToggles["FPS Boost"] = this.config.modules.fpsBoost
+                this.moduleToggles["Better Ping"] = this.config.modules.betterPing
+                this.moduleToggles["Better Invis"] = this.config.modules.betterInvis
+                this.moduleToggles["Settings"] = true
+
                 this.modules.push(new Settings(this.client, this))
 
                 this.modules.push(new PacketFilter(this.client, this))
@@ -65,13 +72,6 @@ export class VirtualHypixel {
                 this.modules.push(new FPSBoost(this.client, this))
                 this.modules.push(new BetterPing(this.client, this))
                 this.modules.push(new BetterInvis(this.client, this))
-
-                this.moduleToggles["Packet Filter"] = this.config.modules.packetFilter
-                this.moduleToggles["Player Stats"] = this.config.modules.playerModule
-                this.moduleToggles["FPS Boost"] = this.config.modules.fpsBoost
-                this.moduleToggles["Better Ping"] = this.config.modules.betterPing
-                this.moduleToggles["Better Invis"] = this.config.modules.betterInvis
-                this.moduleToggles["Settings"] = true
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
