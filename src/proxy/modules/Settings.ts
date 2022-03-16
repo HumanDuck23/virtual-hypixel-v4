@@ -63,7 +63,6 @@ export class Settings extends ModuleBase {
                     this.openWindow(this.layouts.main)
                 })
         } else {
-            logger.debug(`len ${layout.layout.length}`)
             this.virtual.windowManager.createWindow(this.client, this.windowId, layout.name, layout.layout.length, (event) => {
                 let reOpenWindow = true
 
