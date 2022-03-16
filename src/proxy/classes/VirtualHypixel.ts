@@ -35,6 +35,9 @@ export class VirtualHypixel {
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
     modules: ModuleBase[] = []
+    moduleToggles: {
+        [key: string]: boolean
+    } = {}
     config: configInterface
 
     constructor(public configPath: string) {
@@ -57,16 +60,18 @@ export class VirtualHypixel {
 
                 this.modules.push(new Settings(this.client, this))
 
-                if (this.config.modules.packetFilter)
-                    this.modules.push(new PacketFilter(this.client, this))
-                if (this.config.modules.playerModule)
-                    this.modules.push(new PlayerStats(this.client, this))
-                if (this.config.modules.fpsBoost)
-                    this.modules.push(new FPSBoost(this.client, this))
-                if (this.config.modules.betterPing)
-                    this.modules.push(new BetterPing(this.client, this))
-                if (this.config.modules.betterInvis)
-                    this.modules.push(new BetterInvis(this.client, this))
+                this.modules.push(new PacketFilter(this.client, this))
+                this.modules.push(new PlayerStats(this.client, this))
+                this.modules.push(new FPSBoost(this.client, this))
+                this.modules.push(new BetterPing(this.client, this))
+                this.modules.push(new BetterInvis(this.client, this))
+
+                this.moduleToggles["Packet Filter"] = this.config.modules.packetFilter
+                this.moduleToggles["Player Stats"] = this.config.modules.playerModule
+                this.moduleToggles["FPS Boost"] = this.config.modules.fpsBoost
+                this.moduleToggles["Better Ping"] = this.config.modules.betterPing
+                this.moduleToggles["Better Invis"] = this.config.modules.betterInvis
+                this.moduleToggles["Settings"] = true
 
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
@@ -150,16 +155,18 @@ export class VirtualHypixel {
     handlePacket(meta: PacketMeta, data: any, toServer: Client, out: boolean): { intercept: boolean, meta: PacketMeta, data: any } {
         let intercept = false
         for (const module of this.modules) {
-            let applied
-            if (out)
-                applied = module.onOutPacket(meta, data, toServer)
-            else
-                applied = module.onInPacket(meta, data, toServer)
+            if (this.moduleToggles[module.name]) {
+                let applied
+                if (out)
+                    applied = module.onOutPacket(meta, data, toServer)
+                else
+                    applied = module.onInPacket(meta, data, toServer)
 
-            if (applied[0]) {
-                intercept = true
-            } else {
-                data = applied[1]
+                if (applied[0]) {
+                    intercept = true
+                } else {
+                    data = applied[1]
+                }
             }
         }
 
