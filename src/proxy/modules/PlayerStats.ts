@@ -26,7 +26,7 @@ export class PlayerStats extends ModuleBase {
             }
         }
 
-        if (meta.name === "scoreboard_team") {
+        if (meta.name === "scoreboard_team" && !this.virtual.gameStarted) {
             if (data.team === "§7§k") { // players team
                 if (data.mode === 3) { // add players
                     for (const player of data.players) {
@@ -94,7 +94,7 @@ export class PlayerStats extends ModuleBase {
             }
         }
 
-        /*if (meta.name === "named_entity_spawn" && this.virtual.inGame) {
+        if (meta.name === "named_entity_spawn" && this.virtual.inGame && !this.virtual.gameStarted) {
             if (data.playerUUID && utils.realUUID(data.playerUUID)) {
                 //logger.debug(`${data.playerUUID} spawned`)
                 utils.uuidToUsername(data.playerUUID)
@@ -135,8 +135,8 @@ export class PlayerStats extends ModuleBase {
                         logger.error(`Error converting UUID ${data.playerUUID} to username - ${e}`)
                     })
             }
-            fs.appendFileSync("./packetLog2.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
-        }*/
+            //fs.appendFileSync("./packetLog2.txt", `==========================\n${new Date().toISOString()}\n${JSON.stringify(meta)}\n${JSON.stringify(data)}\n`)
+        }
 
         return [false, data]
     }
