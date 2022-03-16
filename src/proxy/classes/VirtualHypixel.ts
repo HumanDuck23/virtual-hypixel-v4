@@ -31,7 +31,6 @@ export class VirtualHypixel {
     lastRespawn: number = 0
     currentMode: string | undefined
     position: any = {}
-    gameStarted: boolean = false
 
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
@@ -91,7 +90,6 @@ export class VirtualHypixel {
                 toServer.write("chat", {message: "/whereami"})
                 this.lastRespawn = new Date().getTime()
                 this.inGame = null
-                this.gameStarted = false
 
                 if (this.client) {
                     axios.get(`https://api.hypixel.net/status?uuid=${this.client.profile?.id}&key=${this.config.account.hypixelApiKey}`)
@@ -123,8 +121,6 @@ export class VirtualHypixel {
                     else
                         this.inGame = false
                     return
-                } else if (m.toString().includes("The game starts in 0 seconds")) {
-                    this.gameStarted = true
                 }
             }
 

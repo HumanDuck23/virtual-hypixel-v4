@@ -28,7 +28,7 @@ export class PlayerStats extends ModuleBase {
             this.sentPlayers = []
         }
 
-        if (meta.name === "scoreboard_team" && !this.virtual.gameStarted) {
+        if (meta.name === "scoreboard_team") {
             if (data.team === "§7§k") { // players team
                 if (data.mode === 3) { // add players
                     for (const player of data.players) {
@@ -96,7 +96,7 @@ export class PlayerStats extends ModuleBase {
             }
         }
 
-        if (meta.name === "player_info" && data.action === 0 && data.data[0].properties && this.virtual.inGame && !this.virtual.gameStarted) {
+        if (meta.name === "player_info" && data.action === 0 && data.data[0].properties && this.virtual.inGame) {
             if (data.data[0].UUID && utils.realUUID(data.data[0].UUID) && data.data[0].UUID !== utils.toDashUUID(this.client.profile.id)) {
                 //logger.debug(`${data.playerUUID} spawned`)
                 const uuid = data.data[0].UUID
