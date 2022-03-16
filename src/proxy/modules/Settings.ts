@@ -73,7 +73,6 @@ export class Settings extends ModuleBase {
     }
 
     openWindow(layout: { name: string, layout: Item[] }) {
-        console.log(this.virtual.moduleToggles)
         if (!this.loadedLayout) {
             this.loadLayout()
                 .then(() => {
