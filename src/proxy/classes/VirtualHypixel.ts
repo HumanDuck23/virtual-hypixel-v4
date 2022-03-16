@@ -123,7 +123,7 @@ export class VirtualHypixel {
                     else
                         this.inGame = false
                     return
-                } else if (m.toString().includes("The game is starting in 0 seconds")) {
+                } else if (m.toString().includes("The game starts in 0 seconds")) {
                     this.gameStarted = true
                 }
             }
