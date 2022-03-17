@@ -157,12 +157,45 @@ export class PlayerStats extends ModuleBase {
      */
     showStats(stat: any, maybe: boolean = false) {
         const args = [stat]
-        // @ts-ignore
-        for (const arg of stats.modes[this.virtual.currentMode].keys) {
-            const p = arg.split(".")
+
+        const getPath = (path: string) => {
+            const p = path.split(".")
             let obj = stat
             for (let _ of p) {
                 obj = obj[_]
+            }
+            return obj ?? 0
+        }
+
+        // use OVERALL if the user wants it and it exists
+        let mode
+
+        if (this.virtual.config.stats.overall) {
+            mode = this.virtual.currentMode?.split("_")
+            if (mode) {
+                mode[mode.length - 1] = "OVERALL"
+                mode = mode.join("_")
+                // @ts-ignore
+                if (!stats.modes[mode]) {
+                    mode = this.virtual.currentMode
+                }
+            } else {
+                mode = this.virtual.currentMode
+            }
+        } else {
+            mode = this.virtual.currentMode
+        }
+
+        // @ts-ignore
+        for (const arg of stats.modes[mode].keys) {
+            let obj
+            if (typeof arg === "object") { // multiple args
+                obj = 0
+                for (const subArg of arg) {
+                    obj += getPath(subArg)
+                }
+            } else {
+                obj = getPath(arg)
             }
             args.push(obj ?? 0) // make sure you don't get an UNDEFINED in there somewhere
         }
