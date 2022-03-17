@@ -5,3 +5,4 @@ package-lock.json
 src/config_.json
 src/tests.ts
 src/config_priv.yaml
+src/virtual-log.txt

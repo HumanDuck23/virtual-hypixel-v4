@@ -41,6 +41,7 @@ export class VirtualHypixel {
     config: configInterface
 
     constructor(public configPath: string) {
+        fs.writeFileSync("./virtual-log.txt", "")
         this.config = YAML.parse(fs.readFileSync(this.configPath).toString())
         if (this.config.stats === null) {
             // @ts-ignore

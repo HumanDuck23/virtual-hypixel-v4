@@ -1,4 +1,5 @@
 import chalk from "chalk"
+import * as fs from "fs"
 
 
 /**
@@ -10,7 +11,9 @@ export const logger = {
      * @param text - Message
      */
     debug(text: string) {
-        console.log(chalk.bold.magenta(`[${new Date().toISOString()}] [info] ${chalk.white(text)}`))
+        const date = new Date().toISOString()
+        console.log(chalk.bold.magenta(`[${date.split("T")[1]}] [info] ${chalk.white(text)}`))
+        fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     },
 
     /**
@@ -18,7 +21,9 @@ export const logger = {
      * @param text - Message
      */
     info(text: string) {
+        const date = new Date().toISOString()
         console.log(chalk.bold.cyan(`[${new Date().toISOString()}] [info] ${chalk.white(text)}`))
+        fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     },
 
     /**
@@ -26,7 +31,9 @@ export const logger = {
      * @param text - Message
      */
     warn(text: string) {
+        const date = new Date().toISOString()
         console.log(chalk.bold.yellow(`[${new Date().toISOString()}] [warn] ${chalk.white(text)}`))
+        fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     },
 
     /**
@@ -34,6 +41,8 @@ export const logger = {
      * @param text - Message
      */
     error(text: string) {
+        const date = new Date().toISOString()
         console.log(chalk.bold.red(`[${new Date().toISOString()}] [error] ${chalk.white(text)}`))
+        fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     }
 }
