@@ -3,6 +3,54 @@ import { utils } from "../../utils/utils"
 import { mcColors } from "./mcColors"
 import {bwPrestiges} from "./bwPrestiges";
 
+const overallBridge = {
+    // @ts-ignore
+    f: function (config: configInterface, args: any[]) {
+        // @ts-ignore
+        return stats.winsLossesWinstreakBestWinstreak(config, ...args)
+    },
+    keys: [
+        [
+            "stats.Duels.bridge_duel_wins",
+            "stats.Duels.bridge_doubles_wins",
+            "stats.Duels.bridge_threes_wins",
+            "stats.Duels.bridge_four_wins",
+            "stats.Duels.bridge_2v2v2v2_wins",
+            "stats.Duels.bridge_3v3v3v3_wins",
+            "stats.Duels.capture_threes_wins"
+        ],
+        [
+            "stats.Duels.bridge_duel_losses",
+            "stats.Duels.bridge_doubles_losses",
+            "stats.Duels.bridge_threes_losses",
+            "stats.Duels.bridge_four_losses",
+            "stats.Duels.bridge_2v2v2v2_losses",
+            "stats.Duels.bridge_3v3v3v3_losses",
+            "stats.Duels.capture_threes_losses"
+        ],
+        "stats.Duels.current_bridge_winstreak",
+        "stats.Duels.best_bridge_winstreak",
+    ]
+}
+
+const overallBw = {
+    // @ts-ignore
+    f: function (config: configInterface, args: any[]) {
+        // @ts-ignore
+        return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+    },
+    keys: [
+        "achievements.bedwars_level",
+        "stats.Bedwars.wins_bedwars",
+        "stats.Bedwars.losses_bedwars",
+        "stats.Bedwars.final_kills_bedwars",
+        "stats.Bedwars.final_deaths_bedwars",
+        "stats.Bedwars.beds_broken_bedwars",
+        "stats.Bedwars.beds_lost_bedwars",
+        "stats.Bedwars.winstreak"
+    ]
+}
+
 export const stats = {
     modes: {
         /*
@@ -101,6 +149,7 @@ export const stats = {
                 "stats.Duels.best_winstreak_mode_bridge_3v3v3v3",
             ]
         },
+        "DUELS_BRIDGE_OVERALL": overallBridge,
         "DUELS_CAPTURE_THREES": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
@@ -114,6 +163,7 @@ export const stats = {
                 "stats.Duels.best_winstreak_mode_capture_threes",
             ]
         },
+        "DUELS_CAPTURE_OVERALL": overallBridge,
         "DUELS_UHC_DUEL": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
@@ -166,6 +216,29 @@ export const stats = {
                 "stats.Duels.best_winstreak_mode_uhc_meetup",
             ]
         },
+        "DUELS_UHC_OVERALL": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.winsLossesWinstreakBestWinstreak(config, ...args)
+            },
+            keys: [
+                [
+                    "stats.Duels.uhc_duel_wins",
+                    "stats.Duels.uhc_doubles_wins",
+                    "stats.Duels.uhc_four_wins",
+                    "stats.Duels.uhc_meetup_wins"
+                ],
+                [
+                    "stats.Duels.uhc_duel_losses",
+                    "stats.Duels.uhc_doubles_losses",
+                    "stats.Duels.uhc_four_losses",
+                    "stats.Duels.uhc_meetup_losses",
+                ],
+                "stats.Duels.current_uhc_winstreak",
+                "stats.Duels.best_uhc_winstreak",
+            ]
+        },
         "DUELS_OP_DUEL": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
@@ -203,6 +276,25 @@ export const stats = {
                 "stats.Duels.sw_doubles_losses",
                 "stats.Duels.current_winstreak_mode_sw_double",
                 "stats.Duels.best_winstreak_mode_sw_doubles",
+            ]
+        },
+        "DUELS_SW_OVERALL": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.winsLossesWinstreakBestWinstreak(config, ...args)
+            },
+            keys: [
+                [
+                    "stats.Duels.sw_duel_wins",
+                    "stats.Duels.sw_doubles_wins",
+                ],
+                [
+                    "stats.Duels.sw_duel_losses",
+                    "stats.Duels.sw_doubles_losses",
+                ],
+                "stats.Duels.current_skywars_winstreak",
+                "stats.Duels.best_skywars_winstreak",
             ]
         },
         "DUELS_CLASSIC_DUEL": {
@@ -322,6 +414,25 @@ export const stats = {
                 "stats.Duels.best_winstreak_mode_mw_doubles",
             ]
         },
+        "DUELS_MW_OVERALL": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.winsLossesWinstreakBestWinstreak(config, ...args)
+            },
+            keys: [
+                [
+                    "stats.Duels.mw_duel_wins",
+                    "stats.Duels.mw_doubles_wins"
+                ],
+                [
+                    "stats.Duels.mw_duel_losses",
+                    "stats.Duels.mw_doubles_losses"
+                ],
+                "stats.Duels.current_mega_walls_winstreak",
+                "stats.Duels.best_mega_walls_winstreak",
+            ]
+        },
         "DUELS_COMBO_DUEL": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
@@ -374,6 +485,7 @@ export const stats = {
                 "stats.Bedwars.eight_two_winstreak"
             ]
         },
+        "BEDWARS_EIGHT_OVERALL": overallBw,
         "BEDWARS_FOUR_THREE": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
@@ -408,6 +520,7 @@ export const stats = {
                 "stats.Bedwars.four_four_winstreak"
             ]
         },
+        "BEDWARS_FOUR_OVERALL": overallBw,
         "BEDWARS_TWO_FOUR": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
@@ -424,7 +537,8 @@ export const stats = {
                 "stats.Bedwars.beds_lost_bedwars",
                 "stats.Bedwars.two_four_winstreak"
             ]
-        }
+        },
+        "BEDWARS_TWO_OVERALL": overallBw,
     },
 
     winsLossesWinstreakBestWinstreak(config: configInterface, player: any, wins: any, losses: any, ws: any, bws: any) {
