@@ -74,6 +74,10 @@ export class VirtualHypixel {
                 this.modules.push(new BetterPing(this.client, this))
                 this.modules.push(new BetterInvis(this.client, this))
 
+                this.client.on("end", () => {
+                    this.inGame = null
+                })
+
                 return { username: this.config.account.email, password: this.config.account.password, auth: this.config.account.auth }
             },
             serverOptions: {
