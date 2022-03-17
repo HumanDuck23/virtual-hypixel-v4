@@ -33,6 +33,7 @@ export interface configInterface {
     },
 
     stats: {
+        overall: boolean,
         wins: string | undefined,
         losses: string | undefined,
         wlr: string | undefined,

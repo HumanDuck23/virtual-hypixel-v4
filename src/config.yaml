@@ -33,8 +33,9 @@ fpsBoost:
 betterPing:
   interval: 5000
 
-# (OPTIONAL) Customization for the stats shown (check src/proxy/interfaces/configInterface.ts for accepted keys
 stats:
+  overall: true # true or false, show overall stats instead of gamemode specific stats (overall bedwars instead of solo bedwars, etc.)
+  # Customization for the stats shown is also possible(check src/proxy/interfaces/configInterface.ts for accepted keys
   #wins: GOLD -> makes the amount of wins shown in GOLD
 
 # Other options
