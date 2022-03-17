@@ -22,7 +22,7 @@ export const logger = {
      */
     info(text: string) {
         const date = new Date().toISOString()
-        console.log(chalk.bold.cyan(`[${new Date().toISOString()}] [info] ${chalk.white(text)}`))
+        console.log(chalk.bold.cyan(`[${date.split("T")[1]}] [info] ${chalk.white(text)}`))
         fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     },
 
@@ -32,7 +32,7 @@ export const logger = {
      */
     warn(text: string) {
         const date = new Date().toISOString()
-        console.log(chalk.bold.yellow(`[${new Date().toISOString()}] [warn] ${chalk.white(text)}`))
+        console.log(chalk.bold.yellow(`[${date.split("T")[1]}] [warn] ${chalk.white(text)}`))
         fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     },
 
@@ -42,7 +42,7 @@ export const logger = {
      */
     error(text: string) {
         const date = new Date().toISOString()
-        console.log(chalk.bold.red(`[${new Date().toISOString()}] [error] ${chalk.white(text)}`))
+        console.log(chalk.bold.red(`[${date.split("T")[1]}] [error] ${chalk.white(text)}`))
         fs.appendFileSync("./virtual-log.txt", `[${date}] [info] ${text}\n`)
     }
 }
