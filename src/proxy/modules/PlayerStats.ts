@@ -104,7 +104,7 @@ export class PlayerStats extends ModuleBase {
                 const uuid = data.data[0].UUID
                 if (!this.sentPlayers.includes(uuid)) {
                     this.sentPlayers.push(uuid)
-                    console.log(this.sentPlayers)
+                    //console.log(this.sentPlayers)
                     utils.uuidToUsername(uuid)
                         .then(name => {
                             utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
@@ -156,56 +156,60 @@ export class PlayerStats extends ModuleBase {
      * @param maybe - Whether this player is not definitely in the game
      */
     showStats(stat: any, maybe: boolean = false) {
-        const args = [stat]
+        if (stat === null) {
+            utils.sendMessage(this.client, utils.colorText("Nicked Player!", mcColors.RED, true))
+        } else {
+            const args = [stat]
 
-        const getPath = (path: string) => {
-            const p = path.split(".")
-            let obj = stat
-            for (let _ of p) {
-                obj = obj[_]
+            const getPath = (path: string) => {
+                const p = path.split(".")
+                let obj = stat
+                for (let _ of p) {
+                    obj = obj[_]
+                }
+                return obj ?? 0
             }
-            return obj ?? 0
-        }
 
-        // use OVERALL if the user wants it and it exists
-        let mode
+            // use OVERALL if the user wants it and it exists
+            let mode
 
-        if (this.virtual.config.stats.overall) {
-            mode = this.virtual.currentMode?.split("_")
-            if (mode) {
-                mode[mode.length - 1] = "OVERALL"
-                mode = mode.join("_")
-                // @ts-ignore
-                if (!stats.modes[mode]) {
+            if (this.virtual.config.stats.overall) {
+                mode = this.virtual.currentMode?.split("_")
+                if (mode) {
+                    mode[mode.length - 1] = "OVERALL"
+                    mode = mode.join("_")
+                    // @ts-ignore
+                    if (!stats.modes[mode]) {
+                        mode = this.virtual.currentMode
+                    }
+                } else {
                     mode = this.virtual.currentMode
                 }
             } else {
                 mode = this.virtual.currentMode
             }
-        } else {
-            mode = this.virtual.currentMode
-        }
 
-        // @ts-ignore
-        for (const arg of stats.modes[mode].keys) {
-            let obj
-            if (typeof arg === "object") { // multiple args
-                obj = 0
-                for (const subArg of arg) {
-                    obj += getPath(subArg)
+            // @ts-ignore
+            for (const arg of stats.modes[mode].keys) {
+                let obj
+                if (typeof arg === "object") { // multiple args
+                    obj = 0
+                    for (const subArg of arg) {
+                        obj += getPath(subArg)
+                    }
+                } else {
+                    obj = getPath(arg)
                 }
-            } else {
-                obj = getPath(arg)
+                args.push(obj ?? 0) // make sure you don't get an UNDEFINED in there somewhere
             }
-            args.push(obj ?? 0) // make sure you don't get an UNDEFINED in there somewhere
-        }
 
-        if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
-            utils.sendMessage(this.client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
-        // @ts-ignore
-        const m = stats.modes[this.virtual.currentMode].f(this.virtual.config, args)
-        for (const _ of m) {
-            utils.sendMessage(this.client, _, "hi :)")
+            if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
+                utils.sendMessage(this.client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
+            // @ts-ignore
+            const m = stats.modes[this.virtual.currentMode].f(this.virtual.config, args)
+            for (const _ of m) {
+                utils.sendMessage(this.client, _, "hi :)")
+            }
         }
     }
 }
