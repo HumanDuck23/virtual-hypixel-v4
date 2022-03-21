@@ -20,6 +20,7 @@ modules:
   betterPing: true
   betterInvis: false
   autoGG: true
+  playProtection: true
 
 # Options for the settings window
 inGameSettings:

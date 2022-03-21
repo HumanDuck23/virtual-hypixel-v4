@@ -17,7 +17,8 @@ export interface configInterface {
         fpsBoost: boolean,
         betterPing: boolean,
         betterInvis: boolean,
-        autoGG: boolean
+        autoGG: boolean,
+        playProtection: boolean
     },
 
     inGameSettings: {
