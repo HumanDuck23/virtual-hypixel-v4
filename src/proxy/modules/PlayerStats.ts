@@ -174,7 +174,7 @@ export class PlayerStats extends ModuleBase {
             const useMode = (_mode === "" ? virtual.currentMode : _mode)
             let mode
 
-            if (virtual.config.stats.overall) {
+            if (virtual.config.stats.overall && _mode === "") {
                 mode = useMode?.split("_")
                 if (mode) {
                     mode[mode.length - 1] = "OVERALL"
@@ -207,7 +207,7 @@ export class PlayerStats extends ModuleBase {
             if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
                 utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
             // @ts-ignore
-            const m = stats.modes[useMode].f(this.virtual.config, args)
+            const m = stats.modes[useMode].f(virtual.config, args)
             for (const _ of m) {
                 utils.sendMessage(client, _, "hi :)")
             }
