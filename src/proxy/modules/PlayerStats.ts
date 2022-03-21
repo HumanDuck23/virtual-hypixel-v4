@@ -20,7 +20,7 @@ export class PlayerStats extends ModuleBase {
     }
 
     onInPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
-        if (meta.name === "respawn") {
+        if (meta.name === "respawn" || (this.virtual.gameStarted && this.tabList.length > 0)) {
             // remove players from tablist
             for (const uuid of this.tabList) {
                 this.client?.write("player_info", { action: 4, data: [{ UUID: uuid }] })
@@ -152,8 +152,11 @@ export class PlayerStats extends ModuleBase {
 
     /**
      * Calculate the stats for the current mode and send them to the client
+     * @param client - Client instance
+     * @param virtual - Virtual Hypixel instance
      * @param stat - Stats object
      * @param maybe - Whether this player is not definitely in the game
+     * @param _mode - Whether to use for a specific mode or use a custom mode
      */
     static showStats(client: Client, virtual: VirtualHypixel, stat: any, maybe: boolean = false, _mode: string = "") {
         if (stat === null) {
@@ -204,12 +207,14 @@ export class PlayerStats extends ModuleBase {
                 args.push(obj ?? 0) // make sure you don't get an UNDEFINED in there somewhere
             }
 
-            if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
-                utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
-            // @ts-ignore
-            const m = stats.modes[useMode].f(virtual.config, args)
-            for (const _ of m) {
-                utils.sendMessage(client, _, "hi :)")
+            if (_mode === "" && !virtual.gameStarted) {
+                if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
+                    utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
+                // @ts-ignore
+                const m = stats.modes[useMode].f(virtual.config, args)
+                for (const _ of m) {
+                    utils.sendMessage(client, _, "hi :)")
+                }
             }
         }
     }
