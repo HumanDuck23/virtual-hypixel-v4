@@ -1,4 +1,5 @@
 import { configInterface } from "../interfaces/configInterface"
+import { CommandsHandler } from "../modules/CommandsHandler"
 import { ModuleBase } from "../modules/base/ModuleBase"
 import { InstantConnectProxy } from "prismarine-proxy"
 import { WindowManager } from "./window/WindowManager"
@@ -65,8 +66,10 @@ export class VirtualHypixel {
                 this.moduleToggles["Better Ping"] = this.config.modules.betterPing
                 this.moduleToggles["Better Invis"] = this.config.modules.betterInvis
                 this.moduleToggles["Settings"] = true
+                this.moduleToggles["Command Handler"] = true
 
                 this.modules.push(new Settings(this.client, this))
+                this.modules.push(new CommandsHandler(this.client, this))
 
                 this.modules.push(new PacketFilter(this.client, this))
                 this.modules.push(new PlayerStats(this.client, this))
