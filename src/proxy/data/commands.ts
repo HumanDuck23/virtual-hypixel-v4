@@ -5,11 +5,12 @@ import { mcColors } from "./mcColors"
 import { aliases } from "./aliases"
 import { PlayerStats } from "../modules/PlayerStats"
 import { ModuleBase } from "../modules/base/ModuleBase"
+import { Client } from "minecraft-protocol"
 
 export const commands = [
     {
         name: ["/sc", "/stat"],
-        f(module: ModuleBase, config: configInterface, message: string) {
+        f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
             const args = message.split(" ")
             args.shift()
 
@@ -52,6 +53,14 @@ export const commands = [
                             })
                     }
                 }
+            }
+        }
+    },
+    {
+        name: ["/rq", "/req", "/requeue"],
+        f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
+            if (module.virtual.currentMode) {
+                toServer.write("chat", { message: `/play ${module.virtual.currentMode.toLowerCase()}` })
             }
         }
     }
