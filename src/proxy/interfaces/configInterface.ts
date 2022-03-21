@@ -18,7 +18,8 @@ export interface configInterface {
         betterPing: boolean,
         betterInvis: boolean,
         autoGG: boolean,
-        playProtection: boolean
+        playProtection: boolean,
+        autoTip: boolean
     },
 
     inGameSettings: {
@@ -37,6 +38,10 @@ export interface configInterface {
     autoGG: {
         message: string[],
         delay: number
+    }
+
+    autoTip: {
+        interval: number
     }
 
     stats: {

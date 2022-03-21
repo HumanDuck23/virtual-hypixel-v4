@@ -21,6 +21,7 @@ modules:
   betterInvis: false
   autoGG: true
   playProtection: true # /play protection - asks you to confirm a /play command if you're in game
+  autoTip: true
 
 # Options for the settings window
 inGameSettings:
@@ -40,6 +41,10 @@ autoGG:
   message: #list of messages to be sent
     - GG
   delay: 100 # delay between the messages (in ms)
+
+# AutoTip Options
+autoTip:
+  interval: 5 # send /tip all every N minutes
 
 stats:
   overall: true # true or false, show overall stats instead of gamemode specific stats (overall bedwars instead of solo bedwars, etc.)

@@ -15,6 +15,7 @@ import { AutoGG } from "../modules/AutoGG"
 import axios from "axios"
 import YAML from "yaml"
 import * as fs from "fs"
+import {stats} from "../data/stats";
 
 const ChatMessage = require('prismarine-chat')('1.8')
 
@@ -42,6 +43,8 @@ export class VirtualHypixel {
         [key: string]: boolean
     } = {}
     config: configInterface
+
+    startedAutoTip: boolean = false
 
     constructor(public configPath: string) {
         fs.writeFileSync("./virtual-log.txt", "")
@@ -103,6 +106,14 @@ export class VirtualHypixel {
 
         // @ts-ignore
         this.proxy.on('incoming', (data, meta, toClient, toServer) => {
+            if (!this.startedAutoTip && this.config.modules.autoTip) {
+                this.startedAutoTip = true
+                setTimeout(() => {
+                    setInterval(() => {
+                        toServer.write("chat", { message: "/tip all" })
+                    }, this.config.autoTip.interval * 1000 * 60)
+                }, this.config.autoTip.interval * 1000 * 60)
+            }
             if (meta.name === "respawn" && new Date().getTime() - this.lastRespawn > 500) {
                 toServer.write("chat", {message: "/whereami"})
                 this.lastRespawn = new Date().getTime()
