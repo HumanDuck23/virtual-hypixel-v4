@@ -11,6 +11,7 @@ import { BetterPing } from "../modules/BetterPing"
 import { Settings } from "../modules/Settings"
 import { FPSBoost } from "../modules/FPSBoost"
 import { logger } from "../../utils/logger"
+import { AutoGG } from "../modules/AutoGG"
 import axios from "axios"
 import YAML from "yaml"
 import * as fs from "fs"
@@ -65,6 +66,7 @@ export class VirtualHypixel {
                 this.moduleToggles["FPS Boost"] = this.config.modules.fpsBoost
                 this.moduleToggles["Better Ping"] = this.config.modules.betterPing
                 this.moduleToggles["Better Invis"] = this.config.modules.betterInvis
+                this.moduleToggles["AutoGG"] = this.config.modules.autoGG
                 this.moduleToggles["Settings"] = true
                 this.moduleToggles["Command Handler"] = true
 
@@ -76,6 +78,7 @@ export class VirtualHypixel {
                 this.modules.push(new FPSBoost(this.client, this))
                 this.modules.push(new BetterPing(this.client, this))
                 this.modules.push(new BetterInvis(this.client, this))
+                this.modules.push(new AutoGG(this.client, this))
 
                 this.client.on("end", () => {
                     this.inGame = null
