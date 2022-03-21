@@ -34,7 +34,8 @@ export interface configInterface {
     },
 
     autoGG: {
-        message: string[]
+        message: string[],
+        delay: number
     }
 
     stats: {

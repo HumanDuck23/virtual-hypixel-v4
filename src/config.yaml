@@ -38,6 +38,7 @@ betterPing:
 autoGG:
   message: #list of messages to be sent
     - GG
+  delay: 100 # delay between the messages (in ms)
 
 stats:
   overall: true # true or false, show overall stats instead of gamemode specific stats (overall bedwars instead of solo bedwars, etc.)
