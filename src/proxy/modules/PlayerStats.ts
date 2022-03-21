@@ -155,7 +155,7 @@ export class PlayerStats extends ModuleBase {
      * @param stat - Stats object
      * @param maybe - Whether this player is not definitely in the game
      */
-    static showStats(client: Client, virtual: VirtualHypixel, stat: any, maybe: boolean = false) {
+    static showStats(client: Client, virtual: VirtualHypixel, stat: any, maybe: boolean = false, _mode: string = "") {
         if (stat === null) {
             utils.sendMessage(client, utils.colorText("Nicked Player!", mcColors.RED, true))
         } else {
@@ -171,22 +171,23 @@ export class PlayerStats extends ModuleBase {
             }
 
             // use OVERALL if the user wants it and it exists
+            const useMode = (_mode === "" ? virtual.currentMode : _mode)
             let mode
 
             if (virtual.config.stats.overall) {
-                mode = virtual.currentMode?.split("_")
+                mode = useMode?.split("_")
                 if (mode) {
                     mode[mode.length - 1] = "OVERALL"
                     mode = mode.join("_")
                     // @ts-ignore
                     if (!stats.modes[mode]) {
-                        mode = virtual.currentMode
+                        mode = useMode
                     }
                 } else {
-                    mode = virtual.currentMode
+                    mode = useMode
                 }
             } else {
-                mode = virtual.currentMode
+                mode = useMode
             }
 
             // @ts-ignore
@@ -206,7 +207,7 @@ export class PlayerStats extends ModuleBase {
             if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
                 utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
             // @ts-ignore
-            const m = stats.modes[this.virtual.currentMode].f(this.virtual.config, args)
+            const m = stats.modes[useMode].f(this.virtual.config, args)
             for (const _ of m) {
                 utils.sendMessage(client, _, "hi :)")
             }
