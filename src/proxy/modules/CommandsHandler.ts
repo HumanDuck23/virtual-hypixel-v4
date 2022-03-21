@@ -12,8 +12,8 @@ export class CommandsHandler extends ModuleBase {
     onOutPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
         if (meta.name === "chat") {
             for (const command of commands) {
-                if (data.message.split(" ")[0] === command.name) {
-                    command.f(this.client, data.message)
+                if (command.name.includes(data.message.split(" ")[0])) {
+                    command.f(this, this.virtual.config, data.message)
                     return [true, null]
                 }
             }
