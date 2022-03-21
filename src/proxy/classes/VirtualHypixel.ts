@@ -33,6 +33,7 @@ export class VirtualHypixel {
     lastRespawn: number = 0
     currentMode: string | undefined
     position: any = {}
+    gameStarted: boolean = false
 
     // modules and stuff
     windowManager: WindowManager = new WindowManager()
@@ -106,6 +107,7 @@ export class VirtualHypixel {
                 toServer.write("chat", {message: "/whereami"})
                 this.lastRespawn = new Date().getTime()
                 this.inGame = null
+                this.gameStarted = false
 
                 if (this.client) {
                     axios.get(`https://api.hypixel.net/status?uuid=${this.client.profile?.id}&key=${this.config.account.hypixelApiKey}`)
@@ -129,6 +131,7 @@ export class VirtualHypixel {
 
             } else if (meta.name === "chat") {
                 const m = new ChatMessage(JSON.parse(data.message))
+                //console.log(m.toString())
                 const serverRE = /You are currently connected to server (.*)/
                 if (serverRE.exec(m.toString())) {
                     const rex = serverRE.exec(m.toString())
@@ -137,6 +140,10 @@ export class VirtualHypixel {
                     else
                         this.inGame = false
                     return
+                } else if (m.toString().includes("▬")) {
+                    if (m.extra && m.extra[0] && m.extra[0].color === "green") {
+                        this.gameStarted = true
+                    }
                 }
             }
 
