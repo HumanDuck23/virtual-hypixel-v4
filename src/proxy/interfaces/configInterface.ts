@@ -16,7 +16,8 @@ export interface configInterface {
         playerModule: boolean,
         fpsBoost: boolean,
         betterPing: boolean,
-        betterInvis: boolean
+        betterInvis: boolean,
+        autoGG: boolean
     },
 
     inGameSettings: {
@@ -31,6 +32,10 @@ export interface configInterface {
     betterPing: {
       interval: 5000
     },
+
+    autoGG: {
+        message: string[]
+    }
 
     stats: {
         overall: boolean,

@@ -19,6 +19,7 @@ modules:
   fpsBoost: true
   betterPing: true
   betterInvis: false
+  autoGG: true
 
 # Options for the settings window
 inGameSettings:
@@ -32,6 +33,11 @@ fpsBoost:
 # BetterPing options
 betterPing:
   interval: 5000
+
+# AutoGG Options
+autoGG:
+  message: #list of messages to be sent
+    - GG
 
 stats:
   overall: true # true or false, show overall stats instead of gamemode specific stats (overall bedwars instead of solo bedwars, etc.)
