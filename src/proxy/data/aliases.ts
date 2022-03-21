@@ -4,8 +4,8 @@ export const aliases = {
         "DUELS_BRIDGE_DOUBLES": ["bridge_doubles", "b2", "b2v2"],
         "DUELS_BRIDGE_THREES": ["bridge_three", "bridge_threes", "b3", "b3v3"],
         "DUELS_BRIDGE_FOUR": ["bridge_four", "bridge_fours", "b4", "b4v4"],
-        "DUELS_BRIDGE_2v2v2v2": ["bridge_2v2v2v2", "b2v2v2v2"],
-        "DUELS_BRIDGE_3v3v3v3": ["bridge_3v3v3v3", "b3v3v3v3"],
+        "DUELS_BRIDGE_2V2V2V2": ["bridge_2v2v2v2", "b2v2v2v2"],
+        "DUELS_BRIDGE_3V3V3V3": ["bridge_3v3v3v3", "b3v3v3v3"],
         "DUELS_CAPTURE_THREES": ["bridge_capture", "bridge_ctf", "ctf", "ctf3v3", "ctf3"],
         "DUELS_BRIDGE_OVERALL": ["bridge", "b", "bridge_duel"],
 
