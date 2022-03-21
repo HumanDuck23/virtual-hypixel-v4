@@ -68,13 +68,13 @@ export class PlayerStats extends ModuleBase {
                                                                     .then(same => {
                                                                         //logger.debug(`${player} same: ${same}`)
                                                                         if (same) {
-                                                                            this.showStats(playerObj)
+                                                                            PlayerStats.showStats(this.client, this.virtual, playerObj)
                                                                         }
                                                                     })
                                                                     .catch(e => {
                                                                         if (e === "offline") {
                                                                             //logger.debug(`${player} offline`)
-                                                                            this.showStats(playerObj, true)
+                                                                            PlayerStats.showStats(this.client, this.virtual, playerObj, true)
                                                                         }
                                                                     })
                                                             }
@@ -115,7 +115,7 @@ export class PlayerStats extends ModuleBase {
                                             .then(playerObj => {
                                                 //logger.debug(`got stats of ${name}`)
                                                 if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
-                                                    this.showStats(playerObj)
+                                                    PlayerStats.showStats(this.client, this.virtual, playerObj)
                                                 }
                                             })
                                             .catch(e => {
@@ -130,7 +130,7 @@ export class PlayerStats extends ModuleBase {
                                             .then(playerObj => {
                                                 //logger.debug(`got stats of ${name}`)
                                                 if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
-                                                    this.showStats(playerObj, true)
+                                                    PlayerStats.showStats(this.client, this.virtual, playerObj, true)
                                                 }
                                             })
                                         //.catch(e => {
@@ -155,9 +155,9 @@ export class PlayerStats extends ModuleBase {
      * @param stat - Stats object
      * @param maybe - Whether this player is not definitely in the game
      */
-    showStats(stat: any, maybe: boolean = false) {
+    static showStats(client: Client, virtual: VirtualHypixel, stat: any, maybe: boolean = false) {
         if (stat === null) {
-            utils.sendMessage(this.client, utils.colorText("Nicked Player!", mcColors.RED, true))
+            utils.sendMessage(client, utils.colorText("Nicked Player!", mcColors.RED, true))
         } else {
             const args = [stat]
 
@@ -173,20 +173,20 @@ export class PlayerStats extends ModuleBase {
             // use OVERALL if the user wants it and it exists
             let mode
 
-            if (this.virtual.config.stats.overall) {
-                mode = this.virtual.currentMode?.split("_")
+            if (virtual.config.stats.overall) {
+                mode = virtual.currentMode?.split("_")
                 if (mode) {
                     mode[mode.length - 1] = "OVERALL"
                     mode = mode.join("_")
                     // @ts-ignore
                     if (!stats.modes[mode]) {
-                        mode = this.virtual.currentMode
+                        mode = virtual.currentMode
                     }
                 } else {
-                    mode = this.virtual.currentMode
+                    mode = virtual.currentMode
                 }
             } else {
-                mode = this.virtual.currentMode
+                mode = virtual.currentMode
             }
 
             // @ts-ignore
@@ -204,11 +204,11 @@ export class PlayerStats extends ModuleBase {
             }
 
             if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
-                utils.sendMessage(this.client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
+                utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
             // @ts-ignore
             const m = stats.modes[this.virtual.currentMode].f(this.virtual.config, args)
             for (const _ of m) {
-                utils.sendMessage(this.client, _, "hi :)")
+                utils.sendMessage(client, _, "hi :)")
             }
         }
     }
