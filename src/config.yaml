@@ -20,7 +20,7 @@ modules:
   betterPing: true
   betterInvis: false
   autoGG: true
-  playProtection: true
+  playProtection: true # /play protection - asks you to confirm a /play command if you're in game
 
 # Options for the settings window
 inGameSettings:

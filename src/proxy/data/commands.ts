@@ -78,10 +78,14 @@ export const commands = [
         name: ["/play"],
         lastRun: 0,
         f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
-            if (module.virtual.gameStarted) {
-                if ((new Date().getTime() - this.lastRun) > 3000) {
-                    utils.sendMessage(module.client, utils.colorText("You seem to be in game! Run the command again to confirm!", mcColors.RED))
-                    this.lastRun = new Date().getTime()
+            if (config.modules.playProtection) {
+                if (module.virtual.gameStarted) {
+                    if ((new Date().getTime() - this.lastRun) > 3000) {
+                        utils.sendMessage(module.client, utils.colorText("You seem to be in game! Run the command again to confirm!", mcColors.RED))
+                        this.lastRun = new Date().getTime()
+                    } else {
+                        toServer.write("chat", { message: message })
+                    }
                 } else {
                     toServer.write("chat", { message: message })
                 }
