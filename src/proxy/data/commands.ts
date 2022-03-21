@@ -58,9 +58,19 @@ export const commands = [
     },
     {
         name: ["/rq", "/req", "/requeue"],
+        lastRun: 0,
         f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
             if (module.virtual.currentMode) {
-                toServer.write("chat", { message: `/play ${module.virtual.currentMode.toLowerCase()}` })
+                if (module.virtual.gameStarted) {
+                    if ((new Date().getTime() - this.lastRun) > 3000) {
+                        utils.sendMessage(module.client, utils.colorText("You seem to be in game! Run the command again to confirm!", mcColors.RED))
+                        this.lastRun = new Date().getTime()
+                    } else {
+                        toServer.write("chat", { message: `/play ${module.virtual.currentMode.toLowerCase()}` })
+                    }
+                } else {
+                    toServer.write("chat", { message: `/play ${module.virtual.currentMode.toLowerCase()}` })
+                }
             }
         }
     }
