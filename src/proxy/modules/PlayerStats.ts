@@ -33,19 +33,19 @@ export class PlayerStats extends ModuleBase {
                 if (data.mode === 3) { // add players
                     for (const player of data.players) {
                         if (player !== this.client.profile.name) {
-                            utils.playerExists(player)
+                            utils.playerExists(player, this.virtual.config.other.requestTimeout)
                                 .then(exists => {
                                     if (exists) {
                                         //logger.debug(`${player} exists`)
-                                        utils.usernameToUUID(player)
+                                        utils.usernameToUUID(player, this.virtual.config.other.requestTimeout)
                                             .then(uuid => {
                                                 if (!this.sentPlayers.includes(uuid)) {
                                                     this.sentPlayers.push(uuid.toString().includes("-") ? uuid : utils.toDashUUID(uuid))
-                                                    utils.getStats(uuid, this.virtual.config.account.hypixelApiKey)
+                                                    utils.getStats(uuid, this.virtual.config.account.hypixelApiKey, this.virtual.config.other.requestTimeout)
                                                         .then(playerObj => {
                                                             //logger.debug(`got stats of ${player}`)
                                                             if (this.virtual.config.other.showCorrectNameAndSkin) {
-                                                                utils.getProfile(player, "name")
+                                                                utils.getProfile(player, "name", true, this.virtual.config.other.requestTimeout)
                                                                     .then(profile => {
                                                                         let displayName = stats.getPlayerText(playerObj)
                                                                         const rankRegex = /.*(\[.*\]).*/
@@ -64,7 +64,7 @@ export class PlayerStats extends ModuleBase {
                                                             }
 
                                                             if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
-                                                                utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
+                                                                utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey, this.virtual.config.other.requestTimeout)
                                                                     .then(same => {
                                                                         //logger.debug(`${player} same: ${same}`)
                                                                         if (same) {
@@ -105,13 +105,13 @@ export class PlayerStats extends ModuleBase {
                 if (!this.sentPlayers.includes(uuid)) {
                     this.sentPlayers.push(uuid)
                     //console.log(this.sentPlayers)
-                    utils.uuidToUsername(uuid)
+                    utils.uuidToUsername(uuid, this.virtual.config.other.requestTimeout)
                         .then(name => {
-                            utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey)
+                            utils.sameGameMode(uuid, this.client.profile.id, this.virtual.config.account.hypixelApiKey, this.virtual.config.other.requestTimeout)
                                 .then(same => {
                                     //.debug(`${name} same: ${same}`)
                                     if (same) {
-                                        utils.getStats(uuid, this.virtual.config.account.hypixelApiKey)
+                                        utils.getStats(uuid, this.virtual.config.account.hypixelApiKey, this.virtual.config.other.requestTimeout)
                                             .then(playerObj => {
                                                 //logger.debug(`got stats of ${name}`)
                                                 if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {
@@ -126,7 +126,7 @@ export class PlayerStats extends ModuleBase {
                                 .catch(e => {
                                     if (e === "offline") {
                                         //logger.debug(`${name} offline`)
-                                        utils.getStats(uuid, this.virtual.config.account.hypixelApiKey)
+                                        utils.getStats(uuid, this.virtual.config.account.hypixelApiKey, this.virtual.config.other.requestTimeout)
                                             .then(playerObj => {
                                                 //logger.debug(`got stats of ${name}`)
                                                 if (this.virtual.currentMode && Object.keys(stats.modes).includes(this.virtual.currentMode)) {

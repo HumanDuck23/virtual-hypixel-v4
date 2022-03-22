@@ -44,11 +44,12 @@ export const utils = {
      * @param uuid - UUID of the player
      * @param mode - Use uuid or name
      * @param sig - Get signature
+     * @param timeout
      */
-    getProfile(uuid: string, mode: "uuid" | "name" = "uuid", sig: boolean = true): Promise<any> {
+    getProfile(uuid: string, mode: "uuid" | "name" = "uuid", sig: boolean = true, timeout: number = 5000): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
-                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout: 5000 }).catch(e => reject(e))
+                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout }).catch(e => reject(e))
                 if (res) {
                     if (res.status === 200) {
                         uuid = res.data.id
@@ -58,7 +59,7 @@ export const utils = {
                 }
 
             }
-            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`).catch(e => reject(e))
+            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`,{ timeout }).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     resolve(res.data)
@@ -75,11 +76,12 @@ export const utils = {
      * Checks whether the two players are in the same gamemode
      * @param uuid1
      * @param uuid2
+     * @param timeout
      */
-    sameGameMode(uuid1: string, uuid2: string, apiKey: string): Promise<boolean> {
+    sameGameMode(uuid1: string, uuid2: string, apiKey: string, timeout: number = 5000): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { timeout: 5000 }).catch(e => reject(e))
-            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { timeout: 5000 }).catch(e => reject(e))
+            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { timeout }).catch(e => reject(e))
+            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { timeout }).catch(e => reject(e))
             if (res1 && res2) {
                 if (res1.status === 200 && res2.status === 200) {
                     if (res1.data.session.online && res2.data.session.online) {
@@ -99,9 +101,9 @@ export const utils = {
     /**
      * Gets the stats of the UUID
      */
-    getStats(uuid: string, apiKey: string): Promise<any> {
+    getStats(uuid: string, apiKey: string, timeout: number = 5000): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { timeout: 5000 }).catch(e => reject(e))
+            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { timeout }).catch(e => reject(e))
             if (res) {
                 if (res.data.success) {
                     resolve(res.data.player)
@@ -117,10 +119,11 @@ export const utils = {
     /**
      * Checks whether the given player exists
      * @param name
+     * @param timeout
      */
-    playerExists(name: string): Promise<boolean> {
+    playerExists(name: string, timeout: number = 5000): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
+            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`, { timeout }).catch(e => reject(e))
             if (res)
                 resolve(res.status === 200)
             else reject(-1)
@@ -130,10 +133,11 @@ export const utils = {
     /**
      * Convert a username to a UUID
      * @param name
+     * @param timeout
      */
-    usernameToUUID(name: string): Promise<any> {
+    usernameToUUID(name: string, timeout: number = 5000): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
+            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`, { timeout }).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     resolve(res.data.id)
@@ -147,10 +151,11 @@ export const utils = {
     /**
      * Convert a UUID to a username
      * @param uuid
+     * @param timeout
      */
-    uuidToUsername(uuid: string): Promise<any> {
+    uuidToUsername(uuid: string, timeout: number = 5000): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/user/profiles/${uuid}/names`).catch(e => reject(e))
+            const res = await axios.get(`https://api.mojang.com/user/profiles/${uuid}/names`, { timeout }).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     resolve(res.data[res.data.length - 1].name)

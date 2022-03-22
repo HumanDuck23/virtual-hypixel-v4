@@ -37,9 +37,9 @@ export const commands = [
                     args.shift()
 
                     for (const player of args) {
-                        utils.usernameToUUID(player)
+                        utils.usernameToUUID(player, config.other.requestTimeout)
                             .then(uuid => {
-                                utils.getStats(uuid, config.account.hypixelApiKey)
+                                utils.getStats(uuid, config.account.hypixelApiKey, config.other.requestTimeout)
                                     .then(stats => {
                                         PlayerStats.showStats(module.client, module.virtual, stats, false, gamemode)
                                     })

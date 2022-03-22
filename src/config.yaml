@@ -55,3 +55,4 @@ stats:
 # Other options
 other:
   showCorrectNameAndSkin: true # Shows the name and skin of your opponent in a duels mode
+  requestTimeout: 10000 # how many MS a network request is allowed to take, only change this if you have to

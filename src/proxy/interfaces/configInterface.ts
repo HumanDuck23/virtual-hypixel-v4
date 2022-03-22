@@ -61,6 +61,7 @@ export interface configInterface {
     },
 
     other: {
-        showCorrectNameAndSkin: boolean
+        showCorrectNameAndSkin: boolean,
+        requestTimeout: number
     }
 }
