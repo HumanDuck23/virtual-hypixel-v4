@@ -133,6 +133,9 @@ export class PlayerStats extends ModuleBase {
                                                     PlayerStats.showStats(this.client, this.virtual, playerObj, true)
                                                 }
                                             })
+                                            .catch(e => {
+                                                logger.error(`Error getting stats of ${name} - ${e}`)
+                                            })
                                         //.catch(e => {
                                         //    logger.error(`Error getting stats of ${name} - ${e}`)
                                         //})
