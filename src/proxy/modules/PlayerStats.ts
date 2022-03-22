@@ -168,7 +168,12 @@ export class PlayerStats extends ModuleBase {
                 const p = path.split(".")
                 let obj = stat
                 for (let _ of p) {
-                    obj = obj[_]
+                    if (obj) {
+                        obj = obj[_]
+                    } else {
+                        obj = 0
+                        break
+                    }
                 }
                 return obj ?? 0
             }
