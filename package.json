@@ -10,11 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^17.0.21",
-    "axios": "^0.26.0",
     "chalk": "^4.1.2",
+    "node-fetch": "^2.6.7",
     "open": "^8.4.0",
     "prismarine-chat": "^1.6.0",
     "prismarine-proxy": "^1.1.1",
     "yaml": "^1.10.2"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.1"
   }
 }
