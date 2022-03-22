@@ -28,7 +28,8 @@ export interface configInterface {
 
     fpsBoost: {
         particles: boolean,
-        fireworks: boolean
+        fireworks: boolean,
+        showRedstone: boolean
     },
 
     betterPing: {

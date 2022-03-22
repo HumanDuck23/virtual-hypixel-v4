@@ -31,6 +31,7 @@ inGameSettings:
 fpsBoost:
   particles: true
   fireworks: true
+  showRedstone: true # show redstone particles (this is the particle above someone's head when they have tnt in bedwars)
 
 # BetterPing options
 betterPing:

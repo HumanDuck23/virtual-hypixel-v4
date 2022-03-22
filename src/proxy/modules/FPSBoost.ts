@@ -13,7 +13,13 @@ export class FPSBoost extends ModuleBase {
     }
 
     onInPacket(meta: PacketMeta, data: any, toServer: Client): [boolean, any] {
-        if (meta.name === "world_particles") return [this.virtual.config.fpsBoost.particles, data]
+        if (meta.name === "world_particles") {
+            if (data.particleId === 30 && this.virtual.config.fpsBoost.showRedstone) {
+                return [false, data]
+            } else {
+                return [this.virtual.config.fpsBoost.particles, data]
+            }
+        }
 
         if (meta.name === "spawn_entity") {
             if (data.type === 76) {
