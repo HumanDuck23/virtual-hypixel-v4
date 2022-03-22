@@ -207,7 +207,17 @@ export class PlayerStats extends ModuleBase {
                 args.push(obj ?? 0) // make sure you don't get an UNDEFINED in there somewhere
             }
 
-            if (_mode === "" && !virtual.gameStarted) {
+            if (_mode === "") {
+                if (!virtual.gameStarted) {
+                    if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
+                        utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
+                    // @ts-ignore
+                    const m = stats.modes[useMode].f(virtual.config, args)
+                    for (const _ of m) {
+                        utils.sendMessage(client, _, "hi :)")
+                    }
+                }
+            } else {
                 if (maybe) // use when the opponent has API status disabled, so it just says OFFLINE
                     utils.sendMessage(client, utils.colorText("!!MAYBE!!", mcColors.RED, true))
                 // @ts-ignore
