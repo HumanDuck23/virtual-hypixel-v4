@@ -41,7 +41,6 @@ export const commands = [
                             .then(uuid => {
                                 utils.getStats(uuid, config.account.hypixelApiKey)
                                     .then(stats => {
-                                        console.log(gamemode)
                                         PlayerStats.showStats(module.client, module.virtual, stats, false, gamemode)
                                     })
                                     .catch(e => {
@@ -49,7 +48,11 @@ export const commands = [
                                     })
                             })
                             .catch(e => {
-                                logger.error(`Error converting username ${player} to UUID! ${e}`)
+                                if (e === -1) {
+                                    utils.sendMessage(module.client, utils.colorText("That player doesnt exist!", mcColors.RED))
+                                } else {
+                                    logger.error(`Error converting username ${player} to UUID! ${e}`)
+                                }
                             })
                     }
                 }
