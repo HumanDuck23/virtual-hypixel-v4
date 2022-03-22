@@ -12,10 +12,9 @@ import { Settings } from "../modules/Settings"
 import { FPSBoost } from "../modules/FPSBoost"
 import { logger } from "../../utils/logger"
 import { AutoGG } from "../modules/AutoGG"
-import axios from "axios"
+import fetch from "node-fetch"
 import YAML from "yaml"
 import * as fs from "fs"
-import {stats} from "../data/stats";
 
 const ChatMessage = require('prismarine-chat')('1.8')
 
@@ -121,16 +120,22 @@ export class VirtualHypixel {
                 this.gameStarted = false
 
                 if (this.client) {
-                    axios.get(`https://api.hypixel.net/status?uuid=${this.client.profile?.id}&key=${this.config.account.hypixelApiKey}`)
+                    fetch(`https://api.hypixel.net/status?uuid=${this.client.profile?.id}&key=${this.config.account.hypixelApiKey}`)
                         .then(res => {
                             if (res.status === 200) {
-                                if (res.data.success) {
-                                    if (res.data.session.online) {
-                                        this.currentMode = res.data.session.mode
-                                    }
-                                } else {
-                                    logger.error(`Error with hypixel api: ${res.status}`)
-                                }
+                                res.json()
+                                    .then(json => {
+                                        if (json.success) {
+                                            if (json.session.online) {
+                                                this.currentMode = json.session.mode
+                                            }
+                                        } else {
+                                            logger.error(`Error with hypixel api: ${res.status}`)
+                                        }
+                                    })
+                                    .catch(e => {
+                                        logger.error(`Error converting to JSON: ${e}`)
+                                    })
                             } else {
                                 logger.error(`Error with hypixel api: ${res.status}`)
                             }

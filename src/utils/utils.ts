@@ -1,6 +1,6 @@
 import { mcColors } from "../proxy/data/mcColors"
 import { Client } from "minecraft-protocol"
-import axios from "axios"
+import fetch from "node-fetch"
 
 export const utils = {
     /**
@@ -49,20 +49,17 @@ export const utils = {
     getProfile(uuid: string, mode: "uuid" | "name" = "uuid", sig: boolean = true, timeout: number = 5000): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             if (mode === "name") {
-                const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${uuid}`, { timeout }).catch(e => reject(e))
-                if (res) {
-                    if (res.status === 200) {
-                        uuid = res.data.id
-                    } else {
-                        reject(res)
-                    }
-                }
-
+                uuid = await this.usernameToUUID(uuid, timeout).catch(e => reject(e))
             }
-            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`,{ timeout }).catch(e => reject(e))
+            const controller = new AbortController()
+            setTimeout(() => {
+                controller.abort()
+            }, timeout)
+            const res = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`, { signal: controller.signal }).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
-                    resolve(res.data)
+                    const json = await res.json()
+                    resolve(json)
                 } else {
                     reject(res)
                 }
@@ -80,12 +77,24 @@ export const utils = {
      */
     sameGameMode(uuid1: string, uuid2: string, apiKey: string, timeout: number = 5000): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res1 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { timeout }).catch(e => reject(e))
-            const res2 = await axios.get(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { timeout }).catch(e => reject(e))
+            const controller1 = new AbortController()
+            setTimeout(() => {
+                controller1.abort()
+            }, timeout)
+            const res1 = await fetch(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { signal: controller1.signal }).catch(e => reject(e))
+
+            const controller2 = new AbortController()
+            setTimeout(() => {
+                controller2.abort()
+            }, timeout)
+            const res2 = await fetch(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { signal: controller2.signal }).catch(e => reject(e))
+
             if (res1 && res2) {
                 if (res1.status === 200 && res2.status === 200) {
-                    if (res1.data.session.online && res2.data.session.online) {
-                        resolve(res1.data.session.mode === res2.data.session.mode)
+                    const json1 = await res1.json()
+                    const json2 = await res2.json()
+                    if (json1.session.online && json2.session.online) {
+                        resolve(json1.session.mode === json2.session.mode)
                     } else {
                         reject("offline")
                     }
@@ -103,12 +112,21 @@ export const utils = {
      */
     getStats(uuid: string, apiKey: string, timeout: number = 5000): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { timeout }).catch(e => reject(e))
+            const controller = new AbortController()
+            setTimeout(() => {
+                controller.abort()
+            }, timeout)
+            const res = await fetch(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { signal: controller.signal }).catch(e => reject(e))
             if (res) {
-                if (res.data.success) {
-                    resolve(res.data.player)
+                if (res.status === 200) {
+                    const json = await res.json()
+                    if (json.success) {
+                        resolve(json.player)
+                    } else {
+                        reject(`Error with hypixel api: ${res.status}`)
+                    }
                 } else {
-                    reject(`Error with hypixel api: ${res.status}`)
+                    reject(`Error making stat's request: ${res.status}`)
                 }
             } else {
                 reject(`Error making request: ${res}`)
@@ -123,7 +141,11 @@ export const utils = {
      */
     playerExists(name: string, timeout: number = 5000): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`, { timeout }).catch(e => reject(e))
+            const controller = new AbortController()
+            setTimeout(() => {
+                controller.abort()
+            }, timeout)
+            const res = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`, { signal: controller.signal }).catch(e => reject(e))
             if (res)
                 resolve(res.status === 200)
             else reject(-1)
@@ -137,10 +159,15 @@ export const utils = {
      */
     usernameToUUID(name: string, timeout: number = 5000): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/users/profiles/minecraft/${name}`, { timeout }).catch(e => reject(e))
+            const controller = new AbortController()
+            setTimeout(() => {
+                controller.abort()
+            }, timeout)
+            const res = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`, { signal: controller.signal }).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
-                    resolve(res.data.id)
+                    const json = await res.json()
+                    resolve(json.id)
                 } else {
                     reject(-1)
                 }
@@ -155,10 +182,15 @@ export const utils = {
      */
     uuidToUsername(uuid: string, timeout: number = 5000): Promise<any> {
         return new Promise(async (resolve, reject) => {
-            const res = await axios.get(`https://api.mojang.com/user/profiles/${uuid}/names`, { timeout }).catch(e => reject(e))
+            const controller = new AbortController()
+            setTimeout(() => {
+                controller.abort()
+            }, timeout)
+            const res = await fetch(`https://api.mojang.com/user/profiles/${uuid}/names`, { signal: controller.signal }).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
-                    resolve(res.data[res.data.length - 1].name)
+                    const json = await res.json()
+                    resolve(json[json.length - 1].name)
                 } else {
                     reject(-1)
                 }
@@ -172,7 +204,7 @@ export const utils = {
      * @param m - Message
      * @param hoverText - Text to be shown on hover
      */
-    sendMessage (client: Client, m: string, hoverText: string = "") {
+    sendMessage(client: Client, m: string, hoverText: string = "") {
         let message = {}
         if (hoverText) {
             message = { message: JSON.stringify({ text: "", extra: [{ text: m, hoverEvent: { action: "show_text", value: { text: hoverText } } }] }) }
