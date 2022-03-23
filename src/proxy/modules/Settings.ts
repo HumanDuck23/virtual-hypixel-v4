@@ -58,8 +58,9 @@ export class Settings extends ModuleBase {
                     new CustomSkull(utils.colorText("Packet Filter", this.virtual.moduleToggles["Packet Filter"] ? mcColors.GREEN : mcColors.RED, true), "6435d9d1-96ec-4f23-ac4d-1a15cd607016"),
                     ...utils.repeatObj<Item>(this.bgItem, 3),
                     new CustomSkull(utils.colorText("Player Stats", this.virtual.moduleToggles["Player Stats"] ? mcColors.GREEN : mcColors.RED, true), "4e293f15-eb1e-433a-bfc0-a6a5619ada6d"),
-                    ...utils.repeatObj<Item>(this.bgItem, 10),
-                    ...utils.repeatObj<Item>(this.bgItem, 9),
+                    this.bgItem,
+					new CustomSkull(utils.colorText("AutoGG", this.virtual.moduleToggles["Auto GG"] ? mcColors.GREEN : mcColors.RED, true), "4e293f15-eb1e-433a-bfc0-a6a5619ada6d"),
+					...utils.repeatObj<Item>(this.bgItem, 8),
                     new Item(262, utils.colorText("Back", mcColors.RED, true), 0),
                     ...utils.repeatObj<Item>(this.bgItem, 4),
                 ]
