@@ -1,6 +1,6 @@
 import { logger } from "../../../../utils/logger"
+import { utils } from "../../../../utils/utils"
 import { Item } from "./Item"
-import axios from "axios"
 
 export class CustomSkull extends Item {
 
@@ -18,25 +18,23 @@ export class CustomSkull extends Item {
     loadData() {
         return new Promise(async (resolve, reject) => {
             // Load player data
-            const res = await axios.get(`https://sessionserver.mojang.com/session/minecraft/profile/${this.playerUUID}?unsigned=false`).catch(e => { reject(e) })
-            if (res) {
-                if (res.status === 200) {
-                    this.playerName = res.data.name
-                    this.value = res.data.properties[0].value
-                    this.signature = res.data.properties[0].signature
-                } else {
-                    logger.error(`CustomSkull: Error loading profile of ${this.playerUUID} - ${res.statusText}`)
-                    reject()
-                }
+            utils.getProfile(this.playerUUID)
+                .then(data => {
+                    if (data) {
+                        this.playerName = data.name
+                        this.value = data.properties[0].value
+                        this.signature = data.properties[0].signature
 
-                if (this.playerName === "" || this.value === "" || this.signature === "") {
-                    reject("Error loading data")
-                } else {
-                    resolve("done")
-                }
-            } else {
-                reject("unknown")
-            }
+                        if (this.playerName === "" || this.value === "" || this.signature === "") {
+                            reject("Error loading data")
+                        } else {
+                            resolve("done")
+                        }
+                    } else {
+                        reject("unknown")
+                    }
+                })
+                .catch(e => {  logger.error(`CustomSkull: Error loading profile of ${this.playerUUID} - ${e}`); reject(e) })
         })
     }
 
