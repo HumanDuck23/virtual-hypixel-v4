@@ -40,7 +40,7 @@ betterPing:
 # AutoGG Options
 autoGG:
   message: #list of messages to be sent
-    - GG
+    - /ac GG
   delay: 100 # delay between the messages (in ms)
 
 # AutoTip Options
