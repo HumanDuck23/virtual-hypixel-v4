@@ -57,7 +57,7 @@ export class VirtualHypixel {
     start() {
         logger.info(`Starting Virtual Hypixel ${this.version}...`)
 
-        this.proxy =  new InstantConnectProxy({
+        this.proxy = new InstantConnectProxy({
             loginHandler: (client) => {
                 this.client = client
 
