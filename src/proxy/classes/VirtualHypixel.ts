@@ -191,10 +191,15 @@ export class VirtualHypixel {
         for (const module of this.modules) {
             if (this.moduleToggles[module.name]) {
                 let applied
-                if (out)
-                    applied = module.onOutPacket(meta, data, toServer)
-                else
-                    applied = module.onInPacket(meta, data, toServer)
+                try {
+                    if (out)
+                        applied = module.onOutPacket(meta, data, toServer)
+                    else
+                        applied = module.onInPacket(meta, data, toServer)
+                } catch (e) {
+                    logger.error(`Error in module ${module.name}: ${e}`)
+                    applied = [false, data]
+                }
 
                 if (applied[0]) {
                     intercept = true
