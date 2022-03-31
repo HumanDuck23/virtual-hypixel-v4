@@ -4,16 +4,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oxanium&display=swap" rel="stylesheet">
 
-<p align="center" style="font-weight: bold; font-size: 16pt; font-family: 'Oxanium', cursive;">
+<h2 align="center" style="font-family: 'Oxanium', cursive;">
    What is Virtual Hypixel?
-</p>
+</h2>
 
 Virtual Hypixel is a tool that improves your gameplay on Hypixel! It comes packed with many
 features that make your life easier, including a stats mod, and fps booster (kind of) and more.
 
-<p align="center" style="font-weight: bold; font-size: 16pt; font-family: 'Oxanium', cursive;">
+<h2 align="center" style="font-family: 'Oxanium', cursive;">
    Features
-</p>
+</h2>
 
 <details>
   <summary>Pre-Game Stats</summary>
@@ -56,9 +56,9 @@ features that make your life easier, including a stats mod, and fps booster (kin
 </details>
 
 
-<p align="center" style="font-weight: bold; font-size: 16pt; font-family: 'Oxanium', cursive;">
+<h2 align="center" style="font-family: 'Oxanium', cursive;">
    How do I use it?
-</p>
+</h2>
 
 Since there is no release yet, you'll have to do a lot of the work yourself to get this running. Here are the steps:
 
