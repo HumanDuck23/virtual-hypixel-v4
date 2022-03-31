@@ -1,46 +1,58 @@
-# Virtual Hypixel (v4)
-V4 of [Virtual Hypixel](https://github.com/HumanDuck23/virtual-hypixel).
+<img src="https://spaghetcodes.best/img/virtual-hypixel/VirtualHypixelBanner.png">
 
----
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium&display=swap" rel="stylesheet">
+
+<h2 style="text-align: center; font-family: 'Oxanium', cursive;">What is Virtual Hypixel?</h2>
+
+Virtual Hypixel is a tool that improves your gameplay on Hypixel! It comes packed with many
+features that make your life easier, including a stats mod, and fps booster (kind of) and more.
+
+<h2 style="text-align: center; font-family: 'Oxanium', cursive;">Features</h2>
+
+<details>
+  <summary>Pre-Game Stats</summary>
+  <p>Virtual Hypixel shows the stats of your opponents before the game starts (including duels, after the update).</p>
+</details>
+<br>
+<details>
+  <summary>AutoGG</summary>
+  <p>With most proxies like this AutoGG and other Hypixel mods don't work, so Virtual Hypixel implements its own AutoGG.</p>
+</details>
+<br>
+<details>
+  <summary>Better Ping</summary>
+  <p>The Better Ping module updates your ping more frequently in-game and counteracts the problem of the ping mod showing 1ms. </p>
+</details>
+<br>
+<details>
+  <summary>Custom Commands</summary>
+  <p>Virtual Hypixel implements a few custom commands, such as the <code>/sc</code> command for stat checking and <code>/rq</code> to quickly requeue your current game.</p>
+</details>
+<br>
+<details>
+  <summary><code>/play</code> Protection</summary>
+  <p>Have you ever accidentally run <code>/play</code> while in game? Virtual Hypixel will ask you to confirm the command to avoid leaving the game.</p>
+</details>
+<br>
+<details>
+  <summary>Basic FPS Boost</summary>
+  <p>The FPS Boosting module can filter out a few things sent by Hypixel to improve FPS.</p>
+</details>
+<br>
+<details>
+  <summary>Packet Filter (Lunar Enable)</summary>
+  <p>The Packet Filter removes certain packets to enable disabled mods such as Freelook and Autotext.</p>
+</details>
+<br>
+<details>
+  <summary>Settings (WIP)</summary>
+  <p>Virtual Hypixel allows you to change settings in-game with a nice and simple settings window.</p>
+</details>
 
 
-██╗░░░██╗██╗██████╗░████████╗██╗░░░██╗░█████╗░██╗░░░░░
-██║░░░██║██║██╔══██╗╚══██╔══╝██║░░░██║██╔══██╗██║░░░░░
-╚██╗░██╔╝██║██████╔╝░░░██║░░░██║░░░██║███████║██║░░░░░
-░╚████╔╝░██║██╔══██╗░░░██║░░░██║░░░██║██╔══██║██║░░░░░
-░░╚██╔╝░░██║██║░░██║░░░██║░░░╚██████╔╝██║░░██║███████╗
-░░░╚═╝░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚═════╝░╚═╝░░╚═╝╚══════╝
-
-██╗░░██╗██╗░░░██╗██████╗░██╗██╗░░██╗███████╗██╗░░░░░
-██║░░██║╚██╗░██╔╝██╔══██╗██║╚██╗██╔╝██╔════╝██║░░░░░
-███████║░╚████╔╝░██████╔╝██║░╚███╔╝░█████╗░░██║░░░░░
-██╔══██║░░╚██╔╝░░██╔═══╝░██║░██╔██╗░██╔══╝░░██║░░░░░
-██║░░██║░░░██║░░░██║░░░░░██║██╔╝╚██╗███████╗███████╗
-╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚══════╝╚══════╝
-
----
-
-### Some of the cool stuff:
-
-- Pre-Game Stats
-- FPS Boost
-- Nice in-game settings menu
-- Re-enable disabled mods such as freelook
-
-### TODO
-
-- [x] FPS Boost
-- [x] Packet Filter
-- [x] In Game Settings
-
-
-- Pre-Game Stats
-  - [x] All Duels Modes
-  - [x] Bedwars
-  - [ ] Skywars
-  - [ ] Maybe some more...
-
-### How do I use it?
+<h2 style="text-align: center; font-family: 'Oxanium', cursive;">How do I use it?</h2>
 
 Since there is no release yet, you'll have to do a lot of the work yourself to get this running. Here are the steps:
 
