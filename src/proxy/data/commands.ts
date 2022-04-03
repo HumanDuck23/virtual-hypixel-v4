@@ -130,13 +130,14 @@ export const commands = [
             }
         }
     },
-    {
-    name: ["/stream ban", "/ssb"],
-    f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
-        const name = message.split(" ")[2]
-        toServer.write("chat", { message: `/p kick ${name}` }
-        setTimeout(() => {
-          toServer.write("chat", { message: `/ignore add ${name}` }) 
-        }, 250)       
-    }
+	{
+		name: ["/stream ban", "/ssb"],
+		f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
+			const name = message.split(" ")[2]
+			toServer.write("chat", { message: `/p kick ${name}` })
+			setTimeout(() => {
+				toServer.write("chat", { message: `/ignore add ${name}` }) 
+			}, 600)
+		}
+	}
 ]
