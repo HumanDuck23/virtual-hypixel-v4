@@ -96,14 +96,5 @@ export const commands = [
                 toServer.write("chat", { message: message })
             }
         }
-    },
-    {
-    name: ["/stream ban", "/ssb"],
-    f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
-        const name = message.split(" ")[2]
-        toServer.write("chat", { message: `/p kick ${name}` }
-        setTimeout(() => {
-          toServer.write("chat", { message: `/ignore add ${name}` }) 
-        }, 250)       
     }
 ]
