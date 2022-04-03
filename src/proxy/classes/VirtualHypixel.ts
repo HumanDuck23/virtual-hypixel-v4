@@ -57,7 +57,7 @@ export class VirtualHypixel {
     start() {
         logger.info(`Starting Virtual Hypixel ${this.version}...`)
 
-        this.proxy =  new InstantConnectProxy({
+        this.proxy = new InstantConnectProxy({
             loginHandler: (client) => {
                 this.client = client
 
@@ -95,7 +95,7 @@ export class VirtualHypixel {
                 validateChannelProtocol: false,
                 motd: `Virtual Hypixel Server`,
                 maxPlayers: 69,
-                //favicon: fs.readFileSync("./data/favicon.txt").toString()
+                favicon: fs.readFileSync("./proxy/data/favicon.txt").toString()
             },
             clientOptions: {
                 version: "1.8.9",
@@ -191,10 +191,15 @@ export class VirtualHypixel {
         for (const module of this.modules) {
             if (this.moduleToggles[module.name]) {
                 let applied
-                if (out)
-                    applied = module.onOutPacket(meta, data, toServer)
-                else
-                    applied = module.onInPacket(meta, data, toServer)
+                try {
+                    if (out)
+                        applied = module.onOutPacket(meta, data, toServer)
+                    else
+                        applied = module.onInPacket(meta, data, toServer)
+                } catch (e) {
+                    logger.error(`Error in module ${module.name}: ${e}`)
+                    applied = [false, data]
+                }
 
                 if (applied[0]) {
                     intercept = true

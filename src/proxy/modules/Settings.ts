@@ -59,7 +59,7 @@ export class Settings extends ModuleBase {
                     ...utils.repeatObj<Item>(this.bgItem, 3),
                     new CustomSkull(utils.colorText("Player Stats", this.virtual.moduleToggles["Player Stats"] ? mcColors.GREEN : mcColors.RED, true), "4e293f15-eb1e-433a-bfc0-a6a5619ada6d"),
                     this.bgItem,
-					new CustomSkull(utils.colorText("AutoGG", this.virtual.moduleToggles["Auto GG"] ? mcColors.GREEN : mcColors.RED, true), "4e293f15-eb1e-433a-bfc0-a6a5619ada6d"),
+					new CustomSkull(utils.colorText("Auto GG", this.virtual.moduleToggles["Auto GG"] ? mcColors.GREEN : mcColors.RED, true), "4e293f15-eb1e-433a-bfc0-a6a5619ada6d"),
 					...utils.repeatObj<Item>(this.bgItem, 8),
                     new Item(262, utils.colorText("Back", mcColors.RED, true), 0),
                     ...utils.repeatObj<Item>(this.bgItem, 4),
