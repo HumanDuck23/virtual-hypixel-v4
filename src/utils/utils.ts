@@ -199,6 +199,29 @@ export const utils = {
     },
 
     /**
+     * Get the name history of the given player
+     * @param uuid
+     * @param timeout
+     */
+    getNameHistory(uuid: string, timeout: number = 5000): Promise<any> {
+        return new Promise(async (resolve, reject) => {
+            const controller = new AbortController()
+            setTimeout(() => {
+                controller.abort()
+            }, timeout)
+            const res = await fetch(`https://api.mojang.com/user/profiles/${uuid}/names`, {signal: controller.signal}).catch(e => reject(e))
+            if (res) {
+                if (res.status === 200) {
+                    const json = await res.json()
+                    resolve(json)
+                } else {
+                    reject(-1)
+                }
+            } else reject(-1)
+        })
+    },
+
+    /**
      * Send a message to the client
      * @param client - Client instance
      * @param m - Message
