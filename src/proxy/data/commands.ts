@@ -96,5 +96,38 @@ export const commands = [
                 toServer.write("chat", { message: message })
             }
         }
+    },
+    {
+        name: ["/namehistory", "/names", "/nh"],
+        f(module: ModuleBase, config: configInterface, message: string, toServer: Client) {
+            const args = message.split(" ")
+            args.shift()
+
+            if (args.length === 0) {
+                utils.sendMessage(module.client, utils.colorText("Please specify at least one player!", mcColors.RED))
+            }
+            for (const player of args) {
+                utils.usernameToUUID(player)
+                    .then(uuid => {
+                        utils.getNameHistory(uuid)
+                            .then(history => {
+                                utils.sendMessage(module.client, utils.colorText(`Name history of ${player}:`, mcColors.GOLD))
+                                for (const name of history) {
+                                    utils.sendMessage(module.client, utils.colorText(`${utils.colorText(name.name, mcColors.GREEN, true)} - ${name.changedToAt ? utils.colorText(`(${new Date(name.changedToAt).toISOString().split("T")[0]})`, mcColors.LIGHT_PURPLE) : ""}`, mcColors.WHITE))
+                                }
+                            })
+                            .catch(e => {
+                                logger.error(`Error getting name history of ${player}: ${e}`)
+                            })
+                    })
+                    .catch(e => {
+                        if (e === -1) {
+                            utils.sendMessage(module.client, utils.colorText("That player doesnt exist!", mcColors.RED))
+                        } else {
+                            logger.error(`Error converting username ${player} to UUID! ${e}`)
+                        }
+                    })
+            }
+        }
     }
 ]
