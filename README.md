@@ -51,6 +51,11 @@ features that make your life easier, including a stats mod, and fps booster (kin
 </details>
 <br>
 <details>
+  <summary>Stream Commands</summary>
+  <p>Virtual Hypixel lets you have a /stream ban (/ssb) command to easily get stream rule breakers off your stream parties!</p>
+</details>
+<br>
+<details>
   <summary>Settings (WIP)</summary>
   <p>Virtual Hypixel allows you to change settings in-game with a nice and simple settings window.</p>
 </details>
