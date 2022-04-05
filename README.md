@@ -32,7 +32,7 @@ features that make your life easier, including a stats mod, and fps booster (kin
 <br>
 <details>
   <summary>Custom Commands</summary>
-  <p>Virtual Hypixel implements a few custom commands, such as the <code>/sc</code> command for stat checking and <code>/rq</code> to quickly requeue your current game.</p>
+  <p>Virtual Hypixel implements a few custom commands, such as the <code>/sc</code> command for stat checking and <code>/rq</code> to quickly requeue your current (or last) game.</p>
 </details>
 <br>
 <details>
