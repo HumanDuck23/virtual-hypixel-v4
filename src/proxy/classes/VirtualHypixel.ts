@@ -114,47 +114,25 @@ export class VirtualHypixel {
                 }, this.config.autoTip.interval * 1000 * 60)
             }
             if (meta.name === "respawn" && new Date().getTime() - this.lastRespawn > 500) {
-                toServer.write("chat", {message: "/whereami"})
+                toServer.write("chat", {message: "/locraw"})
                 this.lastRespawn = new Date().getTime()
                 this.inGame = null
                 this.gameStarted = false
-
-                if (this.client) {
-                    fetch(`https://api.hypixel.net/status?uuid=${this.client.profile?.id}&key=${this.config.account.hypixelApiKey}`)
-                        .then(res => {
-                            if (res.status === 200) {
-                                res.json()
-                                    .then(json => {
-                                        if (json.success) {
-                                            if (json.session.online) {
-                                                this.currentMode = json.session.mode
-                                            }
-                                        } else {
-                                            logger.error(`Error with hypixel api: ${res.status}`)
-                                        }
-                                    })
-                                    .catch(e => {
-                                        logger.error(`Error converting to JSON: ${e}`)
-                                    })
-                            } else {
-                                logger.error(`Error with hypixel api: ${res.status}`)
-                            }
-                        })
-                        .catch(e => {
-                            logger.error(`Error getting your status: ${e}`)
-                        })
-                }
-
             } else if (meta.name === "chat") {
                 const m = new ChatMessage(JSON.parse(data.message))
                 //console.log(m.toString())
-                const serverRE = /You are currently connected to server (.*)/
-                if (serverRE.exec(m.toString())) {
-                    const rex = serverRE.exec(m.toString())
-                    if (rex && rex[1].includes("mini"))
-                        this.inGame = true
-                    else
-                        this.inGame = false
+                const serverRE = /.+"server":.+".+".+/
+                const gameTypeRE = /.+"gametype":.+".+".+/
+                if (serverRE.exec(m.toString()) && gameTypeRE.exec(m.toString())) {
+                    try {
+                        const parsed = JSON.parse(m.toString())
+                        this.inGame = parsed.server.includes("mini")
+                        if (Object.keys(parsed).includes("mode")) {
+                            this.currentMode = parsed.mode
+                        }
+                    } catch (e) {
+                        logger.error(`Error while parsing chat message: ${e}`)
+                    }
                     return
                 } else if (m.toString().includes("▬")) {
                     if (m.extra && m.extra[0] && m.extra[0].color === "green") {
