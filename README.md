@@ -81,14 +81,6 @@ installed.*
 2. Extract the ZIP
 3. Open CMD in the folder you extracted it to
 4. Install the dependencies by typing `npm i`
-5. Fill out the config file in `src/config.yaml`
+5. Fill out the config file in `src/config.yaml` with the hypixel api key, microsoft account username/password, and the discord bot token
 6. Rename `config.yaml` to `config_priv.yaml`
-7. Create a file in src: `app.ts`
-8. Paste this code in there:
-    ```ts
-   import { VirtualHypixel } from "./proxy/classes/VirtualHypixel"
-    const vh = new VirtualHypixel("./config_priv.yaml")
-    vh.start()
-    ```
-9. Compile all the TypeScript code by typing `tsc` in CMD
-10. Run `app.js` with `node app.js`
+7. run `.\start.bat' to start the proxy
