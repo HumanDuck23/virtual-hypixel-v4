@@ -59,6 +59,13 @@ features that make your life easier, including a stats mod, and fps booster (kin
   <summary>Settings (WIP)</summary>
   <p>Virtual Hypixel allows you to change settings in-game with a nice and simple settings window.</p>
 </details>
+<br>
+<details>
+  <summary>Discord Bot (WIP)</summary>
+  <p>Virtual Hypixel has a Discord bot that can show the deobfuscated opponent stats in your Discord server!</p>
+  <img src="https://cdn.discordapp.com/attachments/1036397952249376858/1135065658917408858/image.png">
+</details>
+
 
 
 <h2 align="center" style="font-family: 'Oxanium', cursive;">
