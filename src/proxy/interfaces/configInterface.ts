@@ -63,5 +63,10 @@ export interface configInterface {
     other: {
         showCorrectNameAndSkin: boolean,
         requestTimeout: number
+        discordbot: boolean,
+        discordbotToken: string,
+        discordguild_id: string,
+        discordingamechat: string,
+        discordsessionchat: string,
     }
 }

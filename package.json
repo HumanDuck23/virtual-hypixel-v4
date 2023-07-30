@@ -11,10 +11,12 @@
   "dependencies": {
     "@types/node": "^17.0.21",
     "chalk": "^4.1.2",
+    "discord.js": "^14.6.0",
     "node-fetch": "^2.6.7",
     "open": "^8.4.0",
     "prismarine-chat": "^1.6.0",
     "prismarine-proxy": "^1.1.1",
+    "tsc": "^2.0.4",
     "yaml": "^1.10.2"
   },
   "devDependencies": {

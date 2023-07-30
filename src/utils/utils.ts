@@ -1,6 +1,7 @@
 import { mcColors } from "../proxy/data/mcColors"
 import { Client } from "minecraft-protocol"
 import fetch from "node-fetch"
+import { logger } from "./logger"
 
 export const utils = {
     /**
@@ -55,7 +56,7 @@ export const utils = {
             setTimeout(() => {
                 controller.abort()
             }, timeout)
-            const res = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`, { signal: controller.signal }).catch(e => reject(e))
+            const res = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}${sig ? "?unsigned=false" : ""}`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     const json = await res.json()
@@ -81,13 +82,13 @@ export const utils = {
             setTimeout(() => {
                 controller1.abort()
             }, timeout)
-            const res1 = await fetch(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`, { signal: controller1.signal }).catch(e => reject(e))
+            const res1 = await fetch(`https://api.hypixel.net/status?uuid=${uuid1}&key=${apiKey}`).catch(e => reject(e))
 
             const controller2 = new AbortController()
             setTimeout(() => {
                 controller2.abort()
             }, timeout)
-            const res2 = await fetch(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`, { signal: controller2.signal }).catch(e => reject(e))
+            const res2 = await fetch(`https://api.hypixel.net/status?uuid=${uuid2}&key=${apiKey}`).catch(e => reject(e))
 
             if (res1 && res2) {
                 if (res1.status === 200 && res2.status === 200) {
@@ -116,7 +117,7 @@ export const utils = {
             setTimeout(() => {
                 controller.abort()
             }, timeout)
-            const res = await fetch(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`, { signal: controller.signal }).catch(e => reject(e))
+            const res = await fetch(`https://api.hypixel.net/player?uuid=${uuid}&key=${apiKey}`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     const json = await res.json()
@@ -145,7 +146,7 @@ export const utils = {
             setTimeout(() => {
                 controller.abort()
             }, timeout)
-            const res = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`, { signal: controller.signal }).catch(e => reject(e))
+            const res = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
             if (res)
                 resolve(res.status === 200)
             else reject(-1)
@@ -163,7 +164,7 @@ export const utils = {
             setTimeout(() => {
                 controller.abort()
             }, timeout)
-            const res = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`, { signal: controller.signal }).catch(e => reject(e))
+            const res = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     const json = await res.json()
@@ -175,6 +176,7 @@ export const utils = {
         })
     },
 
+    // updated API to support convert name cause of the name history api endpoint being removed.
     /**
      * Convert a UUID to a username
      * @param uuid
@@ -186,11 +188,11 @@ export const utils = {
             setTimeout(() => {
                 controller.abort()
             }, timeout)
-            const res = await fetch(`https://api.mojang.com/user/profiles/${uuid}/names`, { signal: controller.signal }).catch(e => reject(e))
+            const res = await fetch(`https://api.mojang.com/user/profile/${uuid}`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     const json = await res.json()
-                    resolve(json[json.length - 1].name)
+                    resolve(json.name)
                 } else {
                     reject(-1)
                 }
@@ -209,7 +211,7 @@ export const utils = {
             setTimeout(() => {
                 controller.abort()
             }, timeout)
-            const res = await fetch(`https://api.mojang.com/user/profiles/${uuid}/names`, {signal: controller.signal}).catch(e => reject(e))
+            const res = await fetch(`https://api.mojang.com/user/profiles/${uuid}/names`).catch(e => reject(e))
             if (res) {
                 if (res.status === 200) {
                     const json = await res.json()
@@ -226,15 +228,44 @@ export const utils = {
      * @param client - Client instance
      * @param m - Message
      * @param hoverText - Text to be shown on hover
+     * @param linkurl - URL to be opened on click
      */
-    sendMessage(client: Client, m: string, hoverText: string = "") {
+    sendMessage(client: Client, m: string, hoverText: string = "", linkurl: string = "") {
         let message = {}
         if (hoverText) {
             message = { message: JSON.stringify({ text: "", extra: [{ text: m, hoverEvent: { action: "show_text", value: { text: hoverText } } }] }) }
         } else {
             message = { message: JSON.stringify({ text: "", extra: [{ text: m }] }) }
         }
-        client.write("chat", message)
+        try {
+            client.write("chat", message)
+        } catch (e) {
+            logger.debug(e)
+        }
+        //client.write("chat", message)
+    },
+
+    /**
+     * Send new player to the Tablist
+     * @param client - Client instance
+     * @param player_uuid - Player UUID
+     * @param player_name - Player Name
+     */
+    SetTabPlayer(client: Client, player_uuid: string, player_name: string) {
+        let playerinfo = {
+            "action": 0,
+            "data": [
+                {
+                    "UUID": "a8684b8d-b722-2e1c-9935-f9dd7b1f843b",
+                    "name": "byc3x9ugi9",
+                    "gamemode": 0,
+                    "ping": 0
+                }
+            ]
+        }
+        playerinfo = { action: 0, data: [{ UUID: `${player_uuid}`, name: `${player_name}`, gamemode: 0, ping: 1 }] }
+
+        client.write("player_info", playerinfo)
     },
 
     toDashUUID(uuid: string) {

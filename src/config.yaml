@@ -2,10 +2,10 @@
 
 # Your Account
 account:
-  email: example@example.com
-  password: mypassword
+  email: 
+  password: 
   auth: microsoft # microsoft or mojang account
-  hypixelApiKey: your api key
+  hypixelApiKey: 
 
 # Options for filtering packets
 packet:
@@ -19,8 +19,8 @@ modules:
   fpsBoost: true
   betterPing: true
   betterInvis: false
-  autoGG: true
-  playProtection: true # /play protection - asks you to confirm a /play command if you're in game
+  autoGG: false
+  playProtection: false # /play protection - asks you to confirm a /play command if you're in game
   autoTip: true
 
 # Options for the settings window
@@ -29,9 +29,9 @@ inGameSettings:
 
 # FPS boost options
 fpsBoost:
-  particles: true
-  fireworks: true
-  showRedstone: true # show redstone particles (this is the particle above someone's head when they have tnt in bedwars)
+  particles: false
+  fireworks: false
+  showRedstone: false # show redstone particles (this is the particle above someone's head when they have tnt in bedwars)
 
 # BetterPing options
 betterPing:
@@ -40,7 +40,7 @@ betterPing:
 # AutoGG Options
 autoGG:
   message: #list of messages to be sent
-    - /ac GG
+    - /ac gg
   delay: 100 # delay between the messages (in ms)
 
 # AutoTip Options
@@ -50,9 +50,23 @@ autoTip:
 stats:
   overall: true # true or false, show overall stats instead of gamemode specific stats (overall bedwars instead of solo bedwars, etc.)
   # Customization for the stats shown is also possible(check src/proxy/interfaces/configInterface.ts for accepted keys
-  #wins: GOLD -> makes the amount of wins shown in GOLD
+  wins: GOLD #-> makes the amount of wins shown in GOLD
+  losses: RED
+  wlr: GOLD
+  kills: GOLD
+  fkills: GOLD
+  deaths: RED
+  fdeaths: RED
+  kdr: GOLD
+  ws: GOLD
+  bws: GOLD
+  fkdr: GOLD
 
 # Other options
 other:
   showCorrectNameAndSkin: true # Shows the name and skin of your opponent in a duels mode
   requestTimeout: 10000 # how many MS a network request is allowed to take, only change this if you have to
+  discordbotToken:  # token for the discord bot
+  discordguild_id:  # guild id for the discord bot
+  discordingamechat:  # channel id for the discord bot
+  discordsessionchat:  # sessionchat id for the discord bot
