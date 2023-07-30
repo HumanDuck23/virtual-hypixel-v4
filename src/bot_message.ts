@@ -68,8 +68,6 @@ export class bot_message {
     constructor(public message: string) {
         this.message = message;
     }
-    // channel session is 1037546036748632136
-    // channel ingame-chat is 1130622440372965467
     
     //config.other.discordingamechat
     sendlobby(guildid: string) {
