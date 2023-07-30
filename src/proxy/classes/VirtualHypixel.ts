@@ -15,6 +15,7 @@ import { AutoGG } from "../modules/AutoGG"
 import fetch from "node-fetch"
 import YAML from "yaml"
 import * as fs from "fs"
+import { bot_message } from "../../bot_message"
 
 const ChatMessage = require('prismarine-chat')('1.8')
 
@@ -113,23 +114,47 @@ export class VirtualHypixel {
                     }, this.config.autoTip.interval * 1000 * 60)
                 }, this.config.autoTip.interval * 1000 * 60)
             }
+           
+
             if (meta.name === "respawn" && new Date().getTime() - this.lastRespawn > 500) {
                 toServer.write("chat", {message: "/locraw"})
                 this.lastRespawn = new Date().getTime()
                 this.inGame = null
                 this.gameStarted = false
+
             } else if (meta.name === "chat") {
                 const m = new ChatMessage(JSON.parse(data.message))
-                //console.log(m.toString())
+                //logger.debug(m.toString())
                 const serverRE = /.+"server":.+".+".+/
                 const gameTypeRE = /.+"gametype":.+".+".+/
+                const join_message = /has joined /gi;
+                const join_lobby = /spooked into the lobby /gi;
+
+                // gets rid of the nasty join message {username} has joined the game
+                if (join_message.exec(m.toString())) {
+                    return
+                }
+                if (join_lobby.exec(m.toString())) {
+                    return
+                }
+
+                // gets the current gamemode / server
                 if (serverRE.exec(m.toString()) && gameTypeRE.exec(m.toString())) {
                     try {
                         const parsed = JSON.parse(m.toString())
+                        
+                        //logger.debug(parsed)
                         this.inGame = parsed.server.includes("mini")
                         if (Object.keys(parsed).includes("mode")) {
+                            
+
+                            let date: Date = new Date()
                             this.currentMode = parsed.mode
+                            const dismessage = new bot_message(`New Session at: ${date} in Gamemode: ${this.currentMode}`)
+                            dismessage.sendlobby('1037546036748632136');
+                            
                         }
+                        
                     } catch (e) {
                         logger.error(`Error while parsing chat message: ${e}`)
                     }
@@ -138,6 +163,13 @@ export class VirtualHypixel {
                     if (m.extra && m.extra[0] && m.extra[0].color === "green") {
                         this.gameStarted = true
                     }
+                }
+
+                if (meta.name === "chat") {
+                    const chatmessages = new ChatMessage(JSON.parse(data.message))
+                    //logger.debug(chatmessages.toString())
+                    const dismessage = new bot_message(`${chatmessages.toString()}`)
+                    dismessage.ingamechat('1130622440372965467', `${this.currentMode}`);
                 }
             }
 

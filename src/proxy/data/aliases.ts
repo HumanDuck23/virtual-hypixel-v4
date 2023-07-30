@@ -49,6 +49,8 @@ export const aliases = {
         "BEDWARS_FOUR_FOUR": ["bw4", "bw_fours", "bw_four", "four_bw", "fours_bw"],
         "BEDWARS_FOUR_TWO": ["bw4v4"],
         "BEDWARS_EIGHT_OVERALL": ["bw", "bws"],
-        "BEDWARS_FOUR_OVERALL": ["bw", "bws"]
+        "BEDWARS_FOUR_OVERALL": ["bw", "bws"],
+        "solo_normal": ["sw_n"],
+        "teams_normal": ["teams_n"]
     }
 }

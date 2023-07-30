@@ -538,26 +538,64 @@ export const stats = {
                 "stats.Bedwars.two_four_winstreak"
             ]
         },
-        "BEDWARS_TWO_OVERALL": overallBw,
+        //"BEDWARS_TWO_OVERALL": overallBw,
         /*
 
         SKYWARS MODES
 
          */
-        "SOLO_NORMAL": {
+        "solo_normal": {
             // @ts-ignore
             f: function (config: configInterface, args: any[]) {
                 // @ts-ignore
-                return stats.starWinsLossesFKDRBBLRWS(config, ...args)
+                return stats.swkillsDeathsWinsLosses(config, ...args)
             },
+            //player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any
             keys: [
-
+                "stats.SkyWars.levelFormatted",
+                "stats.SkyWars.kills_solo_normal",
+                "stats.SkyWars.deaths_solo_normal",
+                "stats.SkyWars.wins_solo_normal",
+                "stats.SkyWars.losses_solo_normal"
+                
+            ]
+        },
+        "teams_normal": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.swkillsDeathsWinsLosses(config, ...args)
+            },
+            //player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any
+            keys: [
+                "stats.SkyWars.levelFormatted",
+                "stats.SkyWars.kills_team_normal",
+                "stats.SkyWars.deaths_team_normal",
+                "stats.SkyWars.wins_team_normal",
+                "stats.SkyWars.losses_team_normal"
+                
+            ]
+        },
+        "teams_insane": {
+            // @ts-ignore
+            f: function (config: configInterface, args: any[]) {
+                // @ts-ignore
+                return stats.swkillsDeathsWinsLosses(config, ...args)
+            },
+            //player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any
+            keys: [
+                "stats.SkyWars.levelFormatted",
+                "stats.SkyWars.kills_team_insane",
+                "stats.SkyWars.deaths_team_insane",
+                "stats.SkyWars.wins_team_insane",
+                "stats.SkyWars.losses_team_insane"
+                
             ]
         }
     },
 
     winsLossesWinstreakBestWinstreak(config: configInterface, player: any, wins: any, losses: any, ws: any, bws: any) {
-        const bar = utils.colorText("█", mcColors.WHITE, true, false, false, false, false)
+        const bar = utils.colorText(">>", mcColors.RED, true, false, false, false, false)
 
         const w = utils.colorText(`W: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
         const l = utils.colorText(`L: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
@@ -574,7 +612,7 @@ export const stats = {
     },
 
     starWinsLossesFKDRBBLRWS(config: configInterface, player: any, star: any, wins: any, losses: any, fkills: any, fdeaths: any, bb: any, bl: any, ws: any) {
-        const bar = utils.colorText("█", mcColors.WHITE, true, false, false, false, false)
+        const bar = utils.colorText(">>", mcColors.RED, true, false, false, false, false)
 
         const w = utils.colorText(`W: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
         const l = utils.colorText(`L: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
@@ -596,7 +634,7 @@ export const stats = {
 
     killsDeathsWinsLossesWinstreakBestWinstreak(config: configInterface, player: any, kills: any, deaths: any, wins: any, losses: any, ws: any, bws: any) {
         // some good method naming right there
-        const bar = utils.colorText("█", mcColors.WHITE, true, false, false, false, false)
+        const bar = utils.colorText(">>", mcColors.RED, true, false, false, false, false)
 
         const w = utils.colorText(`W: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
         const l = utils.colorText(`L: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
@@ -611,6 +649,22 @@ export const stats = {
 
         return [utils.colorText(`${bar} ${this.getPlayerText(player)} - ${w} - ${l} - ${wlr} - ${k} - ${d} - ${kdr} - ${wsT} - ${bwsT}`, mcColors.WHITE)]
     },
+    // Skywars KDR Card, supports colored stars!
+    swkillsDeathsWinsLosses(config: configInterface, player: any, star: any, kills: any, deaths: any, wins: any, losses: any) {
+        // Pylons added this :D
+        const bar = utils.colorText(">>", mcColors.RED, true, false, false, false, false)
+
+        const w = utils.colorText(`W: ${wins}`, this.getColor(config.stats.wins ?? "GREEN", mcColors.GREEN))
+        const l = utils.colorText(`L: ${losses}`, this.getColor(config.stats.losses ?? "RED", mcColors.RED))
+        const wlr = utils.colorText(`W/L: ${(parseInt(wins) / (parseInt(losses) !== 0 ? parseInt(losses) : 1)).toFixed(2)}`, this.getColor(config.stats.wlr ?? "BLUE", mcColors.BLUE))
+
+        const k = utils.colorText(`K: ${kills}`, this.getColor(config.stats.kills ?? "GREEN", mcColors.GREEN))
+        const d = utils.colorText(`D: ${deaths}`, this.getColor(config.stats.deaths ?? "RED", mcColors.RED))
+        const kdr = utils.colorText(`K/D: ${(parseInt(kills) / (parseInt(deaths) !== 0 ? parseInt(deaths) : 1)).toFixed(2)}`, this.getColor(config.stats.kdr ?? "BLUE", mcColors.BLUE))
+        
+        return [utils.colorText(`${bar} §7[${star.toString()}§7] ${this.getPlayerText(player)} -  - ${k} - ${d} - ${kdr}`, mcColors.WHITE)]
+    },
+
 
     getPlayerText(player: any) {
         if (player.monthlyPackageRank === "SUPERSTAR") {

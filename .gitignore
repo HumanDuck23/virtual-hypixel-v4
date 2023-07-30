@@ -1,4 +1,5 @@
 node_modules
+token.json
 .idea
 package-lock.json
 *.js
@@ -6,3 +7,5 @@ src/config_.json
 src/tests.ts
 src/config_priv.yaml
 src/virtual-log.txt
+src/proxy/modules/cache.json
+incaseyouneedthisagain.txt
